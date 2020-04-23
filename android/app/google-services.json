@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "764355483612",
+    "firebase_url": "https://neighborhoood-1d366.firebaseio.com",
+    "project_id": "neighborhoood-1d366",
+    "storage_bucket": "neighborhoood-1d366.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764355483612:android:1bfef2622a99176af76119",
+        "android_client_info": {
+          "package_name": "com.example.neighborhood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "764355483612-shddkufepngmjstg15kkbf2cdi0euoci.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.neighborhood",
+            "certificate_hash": "0d5c7554f91507ae05a5ccd8bed7626862aff2a7"
+          }
+        },
+        {
+          "client_id": "764355483612-skson2v87cgqkpo5mt99d7lrmfd5ug1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJqzjwok72CQ2j2kOllTJwUmZnN15SxGA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "764355483612-skson2v87cgqkpo5mt99d7lrmfd5ug1q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
