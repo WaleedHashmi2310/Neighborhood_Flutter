@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:neighborhood/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:neighborhood/app/sign_in/validators.dart';
 import 'package:neighborhood/app/sign_in/sign_in_button.dart';
-import 'package:neighborhood/services/auth_provider.dart';
+import 'package:neighborhood/services/auth.dart';
+import 'package:provider/provider.dart';
 
 class EmailSignUpForm extends StatefulWidget with EmailAndPasswordValidators {
 
@@ -27,7 +28,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
       _isLoading = true;
     });
     try {
-      final auth = AuthProvider.of(context);
+      final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.createUserWithEmailAndPassword(_email, _password);
       Navigator.pop(context);
 

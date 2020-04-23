@@ -4,7 +4,8 @@ import 'package:neighborhood/app/sign_in/sign_up_page.dart';
 import 'package:neighborhood/common_widgets/platform_exception_alert_dialog.dart';
 import 'package:neighborhood/app/sign_in/validators.dart';
 import 'package:neighborhood/app/sign_in/sign_in_button.dart';
-import 'package:neighborhood/services/auth_provider.dart';
+import 'package:neighborhood/services/auth.dart';
+import 'package:provider/provider.dart';
 
 class EmailSignInForm extends StatefulWidget with EmailAndPasswordValidators {
 
@@ -28,7 +29,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       _isLoading = true;
     });
     try {
-      final auth = AuthProvider.of(context);
+      final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInWithEmailAndPassword(_email, _password);
     } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(

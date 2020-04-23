@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:neighborhood/app/sign_in/social_sign_in_button.dart';
 import 'package:neighborhood/app/sign_in/email_sign_in_form.dart';
 import 'package:neighborhood/common_widgets/platform_exception_alert_dialog.dart';
-import 'package:neighborhood/services/auth_provider.dart';
 import 'package:flutter/services.dart';
+import 'package:neighborhood/services/auth.dart';
+import 'package:provider/provider.dart';
 
 
 class SignInPage extends StatelessWidget {
@@ -18,7 +19,7 @@ class SignInPage extends StatelessWidget {
 
   Future<void> _signInAnonymously(BuildContext context) async{
     try{
-      final auth = AuthProvider.of(context);
+      final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInAnonymously();
     }on PlatformException catch(e){
       _showSignInError(context, e);
@@ -27,7 +28,7 @@ class SignInPage extends StatelessWidget {
 
   Future<void> _signInWithGoogle(BuildContext context) async{
     try{
-      final auth = AuthProvider.of(context);
+      final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInWithGoogle();
     }on PlatformException catch(e){
       if (e.code != "ERROR_ABORTED_BY_USER") {
@@ -37,7 +38,7 @@ class SignInPage extends StatelessWidget {
   }
   Future<void> _signInWithFacebook(BuildContext context) async{
     try{
-      final auth = AuthProvider.of(context);
+      final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInWithFacebook();
     }on PlatformException catch(e){
       if (e.code != "ERROR_ABORTED_BY_USER") {
@@ -110,10 +111,10 @@ class SignInPage extends StatelessWidget {
                     ]
                 ),
 
-                SizedBox(height: 24.0),
+                SizedBox(height: 20.0),
 
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
 
                   SocialSignInButton(
@@ -123,6 +124,8 @@ class SignInPage extends StatelessWidget {
                     textColor: Colors.white,
                     onPressed: () => _signInWithGoogle(context),
                   ),
+
+                    SizedBox(width: 16.0),
 
                     SocialSignInButton(
                       assetName: 'images/facebook-logo.png',

@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:neighborhood/app/sign_in/social_sign_in_button.dart';
 import 'package:neighborhood/common_widgets/platform_exception_alert_dialog.dart';
-import 'package:neighborhood/services/auth_provider.dart';
 import 'package:flutter/services.dart';
-
+import 'package:neighborhood/services/auth.dart';
+import 'package:provider/provider.dart';
 import 'email_sign_up_form.dart';
 
 class EmailSignUpPage extends StatelessWidget {
@@ -19,7 +19,7 @@ class EmailSignUpPage extends StatelessWidget {
 
   Future<void> _signInWithGoogle(BuildContext context) async{
     try{
-      final auth = AuthProvider.of(context);
+      final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInWithGoogle();
       Navigator.pop(context);
     }on PlatformException catch(e){
@@ -30,7 +30,7 @@ class EmailSignUpPage extends StatelessWidget {
   }
   Future<void> _signInWithFacebook(BuildContext context) async{
     try{
-      final auth = AuthProvider.of(context);
+      final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInWithFacebook();
       Navigator.pop(context);
     }on PlatformException catch(e){
@@ -103,10 +103,10 @@ class EmailSignUpPage extends StatelessWidget {
                     ]
                 ),
 
-                SizedBox(height: 24.0),
+                SizedBox(height: 20.0),
 
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
 
                     SocialSignInButton(
@@ -117,6 +117,8 @@ class EmailSignUpPage extends StatelessWidget {
                       onPressed: () => _signInWithGoogle(context),
                     ),
 
+                    SizedBox(width: 16.0),
+
                     SocialSignInButton(
                       assetName: 'images/facebook-logo.png',
                       color: Color(0xFF334D92),
@@ -124,7 +126,6 @@ class EmailSignUpPage extends StatelessWidget {
                       textColor: Colors.white,
                       onPressed: () => _signInWithFacebook(context),
                     )
-
                   ],
                 ),
               ],
