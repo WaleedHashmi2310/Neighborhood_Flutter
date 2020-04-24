@@ -33,7 +33,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       await auth.signInWithEmailAndPassword(_email, _password);
     } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(
-        title: 'Sign in failed',
+        title: 'Can\'t Sign In',
         exception: e,
       ).show(context);
     } finally {
@@ -47,7 +47,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         fullscreenDialog: true,
-        builder: (context) => EmailSignUpPage()
+        builder: (context) => SignUpPage.create(context)
       ),
     );
   }

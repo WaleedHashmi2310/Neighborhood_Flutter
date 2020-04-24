@@ -34,7 +34,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
 
     } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(
-        title: 'Sign Up failed',
+        title: 'Can\'t Sign Up',
         exception: e,
       ).show(context);
     } finally {
@@ -56,6 +56,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
 
     bool submitEnabled = widget.emailValidator.isValid(_email) &&
         widget.passwordValidator.isValid(_password) && !_isLoading;
+
 
     return [
       _buildEmailTextField(),
@@ -96,33 +97,6 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
     ];
   }
 
-  TextField _buildPasswordTextField() {
-    return TextField(
-      controller: _passwordController,
-      focusNode: _passwordFocusNode,
-      cursorColor: Colors.black87,
-      style: TextStyle(color: Colors.black87),
-      decoration: InputDecoration(
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
-        ),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
-        ),
-        enabled: _isLoading == false,
-        hintText: 'Password',
-        hintStyle: TextStyle(
-          color: Colors.grey,
-          fontSize: 18.0,
-        ),
-      ),
-      obscureText: true,
-      textInputAction: TextInputAction.done,
-      onEditingComplete: _submit,
-      onChanged: (password) => _updateState() ,
-    );
-  }
-
   TextField _buildEmailTextField() {
 //    bool emailValid = widget.emailValidator.isValid(_email);
     return TextField(
@@ -135,7 +109,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
             borderSide: BorderSide(color: Colors.grey),
           ),
           focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
+            borderSide: BorderSide(color: Theme.of(context).accentColor, width: 2.0),
           ),
           errorStyle: TextStyle(
             color: Colors.black87,
@@ -153,6 +127,34 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
         onChanged: (email) => _updateState()
     );
   }
+
+  TextField _buildPasswordTextField() {
+    return TextField(
+      controller: _passwordController,
+      focusNode: _passwordFocusNode,
+      cursorColor: Colors.black87,
+      style: TextStyle(color: Colors.black87),
+      decoration: InputDecoration(
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).accentColor, width: 2.0),
+        ),
+        enabled: _isLoading == false,
+        hintText: 'Password',
+        hintStyle: TextStyle(
+          color: Colors.grey,
+          fontSize: 18.0,
+        ),
+      ),
+      obscureText: true,
+      textInputAction: TextInputAction.done,
+      onEditingComplete: _submit,
+      onChanged: (password) => _updateState() ,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
