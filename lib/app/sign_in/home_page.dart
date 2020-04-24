@@ -112,7 +112,7 @@ class HomePage extends StatelessWidget {
 
       appBar: AppBar(
         title: Text(
-            'Askari XI',
+            'Demo Hood',
             style: TextStyle(color: Colors.black87, fontSize: 22.0, fontFamily: 'AirbnbCerealBold')
 
         ),

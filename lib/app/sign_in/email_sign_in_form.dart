@@ -68,7 +68,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       SizedBox(height: 32.0),
 
       SignInButton(
-        text: 'Sign In',
+        text: 'Sign in',
         textColor: Colors.white,
         color: Theme.of(context).accentColor,
         onPressed: submitEnabled?() => _submit(): null,
@@ -89,8 +89,9 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
             children: <TextSpan>[
               new TextSpan(
                 text: 'Need an account? ',
+                style: TextStyle(color: Colors.black87)
               ),
-              new TextSpan(text: 'Sign Up',
+              new TextSpan(text: 'Sign up',
                   style: new TextStyle(color: Theme.of(context).accentColor, fontWeight: FontWeight.w600)),
             ],
           ),
@@ -109,15 +110,15 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       style: TextStyle(color: Colors.black87),
       decoration: InputDecoration(
         enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
+          borderSide: BorderSide(color: Colors.black54),
         ),
         focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
+          borderSide: BorderSide(color: Colors.black54),
         ),
         enabled: _isLoading == false,
         hintText: 'Password',
         hintStyle: TextStyle(
-          color: Colors.grey,
+          color: Colors.black54,
           fontSize: 18.0,
         ),
       ),
@@ -133,22 +134,22 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
     return TextField(
         controller: _emailController,
         focusNode: _emailFocusNode,
-        cursorColor: Colors.black54,
+        cursorColor: Colors.black87,
         style: TextStyle(color: Colors.black87),
         decoration: InputDecoration(
           enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
+            borderSide: BorderSide(color: Colors.black54),
           ),
           focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
+            borderSide: BorderSide(color: Colors.black54),
           ),
           errorStyle: TextStyle(
-            color: Colors.black87,
+            color: Colors.black54,
           ),
           enabled: _isLoading == false,
           hintText: 'Email',
           hintStyle: TextStyle(
-            color: Colors.grey,
+            color: Colors.black54,
             fontSize: 18.0,
           ),
         ),

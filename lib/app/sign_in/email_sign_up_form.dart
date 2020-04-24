@@ -65,7 +65,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
       SizedBox(height: 32.0),
 
       SignInButton(
-        text: 'Sign Up',
+        text: 'Sign up',
         textColor: Colors.white,
         color: Theme.of(context).accentColor,
         onPressed: submitEnabled?() => _submit(): null,
@@ -86,7 +86,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
               new TextSpan(
                 text: 'Already have an account? ',
               ),
-              new TextSpan(text: 'Sign In',
+              new TextSpan(text: 'Sign in',
                   style: new TextStyle(color: Theme.of(context).accentColor, fontWeight: FontWeight.w600)),
             ],
           ),
@@ -97,37 +97,6 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
     ];
   }
 
-  TextField _buildEmailTextField() {
-//    bool emailValid = widget.emailValidator.isValid(_email);
-    return TextField(
-        controller: _emailController,
-        focusNode: _emailFocusNode,
-        cursorColor: Colors.black54,
-        style: TextStyle(color: Colors.black87),
-        decoration: InputDecoration(
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).accentColor, width: 2.0),
-          ),
-          errorStyle: TextStyle(
-            color: Colors.black87,
-          ),
-          enabled: _isLoading == false,
-          hintText: 'Email',
-          hintStyle: TextStyle(
-            color: Colors.grey,
-            fontSize: 18.0,
-          ),
-        ),
-        keyboardType: TextInputType.emailAddress,
-        textInputAction: TextInputAction.next,
-        onEditingComplete: _emailEditingComplete,
-        onChanged: (email) => _updateState()
-    );
-  }
-
   TextField _buildPasswordTextField() {
     return TextField(
       controller: _passwordController,
@@ -136,15 +105,15 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
       style: TextStyle(color: Colors.black87),
       decoration: InputDecoration(
         enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
+          borderSide: BorderSide(color: Colors.black54),
         ),
         focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Theme.of(context).accentColor, width: 2.0),
+          borderSide: BorderSide(color: Colors.black54),
         ),
         enabled: _isLoading == false,
         hintText: 'Password',
         hintStyle: TextStyle(
-          color: Colors.grey,
+          color: Colors.black54,
           fontSize: 18.0,
         ),
       ),
@@ -152,6 +121,37 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
       textInputAction: TextInputAction.done,
       onEditingComplete: _submit,
       onChanged: (password) => _updateState() ,
+    );
+  }
+
+  TextField _buildEmailTextField() {
+//    bool emailValid = widget.emailValidator.isValid(_email);
+    return TextField(
+        controller: _emailController,
+        focusNode: _emailFocusNode,
+        cursorColor: Colors.black87,
+        style: TextStyle(color: Colors.black87),
+        decoration: InputDecoration(
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.black54),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.black54),
+          ),
+          errorStyle: TextStyle(
+            color: Colors.black54,
+          ),
+          enabled: _isLoading == false,
+          hintText: 'Email',
+          hintStyle: TextStyle(
+            color: Colors.black54,
+            fontSize: 18.0,
+          ),
+        ),
+        keyboardType: TextInputType.emailAddress,
+        textInputAction: TextInputAction.next,
+        onEditingComplete: _emailEditingComplete,
+        onChanged: (email) => _updateState()
     );
   }
 

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:neighborhood/app/sign_in/sign_in_bloc.dart';
 import 'package:neighborhood/app/sign_in/social_sign_in_button.dart';
@@ -91,10 +92,29 @@ class SignInPage extends StatelessWidget {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    Text(
-                      'Sign In',
-                      style: TextStyle(fontSize: 40.0, color: Colors.black87, fontFamily: 'AirbnbCerealBold'),
-                      textAlign: TextAlign.center,
+                    Stack(
+                      children: <Widget>[
+                        Positioned(
+                          top: 48.0,
+                          left: 4.0,
+                          right: 1.0,
+                          child: SizedBox(
+                            width: 184.0,
+                            height: 8.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).accentColor.withOpacity(0.9)
+                              ),
+                            )
+                          )
+                        ),
+                        Text(
+                          'Sign in',
+                          style: TextStyle(fontSize: 48.0, color: Colors.black87, fontFamily: 'AirbnbCerealBold'),
+                          textAlign: TextAlign.center,
+                        ),
+
+                      ],
                     ),
 
                     SizedBox(width: 16.0),
@@ -121,14 +141,14 @@ class SignInPage extends StatelessWidget {
                           )
                       ),
 
-                      SizedBox(width: 16.0),
+                      SizedBox(width: 12.0),
 
                       Text(
-                        "OR",
-                        style: TextStyle(color: Colors.grey, fontSize: 12.0) ,
+                        "or",
+                        style: TextStyle(color: Colors.grey, fontSize: 16.0) ,
                       ),
 
-                      SizedBox(width: 16.0),
+                      SizedBox(width: 12.0),
 
                       Expanded(
                           child: Divider(
@@ -144,7 +164,6 @@ class SignInPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-
                   SocialSignInButton(
                     assetName: 'images/google-logo-white.png',
                     color: Colors.blue[400],
