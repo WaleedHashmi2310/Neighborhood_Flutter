@@ -20,34 +20,27 @@ class PlatformAlertDialog extends PlatformWidget {
   final String defaultActionText;
 
   Future<bool> show(BuildContext context) async {
-    return Platform.isIOS
-        ? await showCupertinoDialog<bool>(
-            context: context,
-            builder: (context) => this,
-          )
-        : await showDialog<bool>(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => this,
-          );
-  }
-
-  @override
-  Widget buildCupertinoWidget(BuildContext context) {
-    return CupertinoAlertDialog(
-      title: Text(title),
-      content: Text(content),
-      actions: _buildActions(context),
+    return await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => this,
     );
   }
+
 
   @override
   Widget buildMaterialWidget(BuildContext context) {
     return AlertDialog(
-      title: Text(title),
+
+      title: Text(title, style: TextStyle(fontFamily: 'AirbnbCereal', fontSize: 20.0),),
       content: Text(
         content,
-        style: TextStyle(fontFamily: 'AirbnbCerealLight')
+        style: TextStyle(fontSize: 16.0, fontFamily: 'AirbnbCerealLight'),
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(12.0),
+        )
       ),
       actions: _buildActions(context),
     );
@@ -62,7 +55,7 @@ class PlatformAlertDialog extends PlatformWidget {
             cancelActionText,
             style: TextStyle(color: Theme.of(context).accentColor)
           ),
-          onPressed: () => Navigator.of(context).pop(false),
+          onPressed: () => Navigator.of(context).pop(),
         ),
       );
     }
@@ -72,7 +65,9 @@ class PlatformAlertDialog extends PlatformWidget {
           defaultActionText,
           style: TextStyle(color: Theme.of(context).accentColor),
         ),
-        onPressed: () => Navigator.of(context).pop(true),
+        onPressed: () => {
+          Navigator.of(context).pop()
+        },
       ),
     );
     return actions;
@@ -84,13 +79,6 @@ class PlatformAlertDialogAction extends PlatformWidget {
   final Widget child;
   final VoidCallback onPressed;
 
-  @override
-  Widget buildCupertinoWidget(BuildContext context) {
-    return CupertinoDialogAction(
-      child: child,
-      onPressed: onPressed,
-    );
-  }
 
   @override
   Widget buildMaterialWidget(BuildContext context) {
