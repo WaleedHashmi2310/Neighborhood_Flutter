@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:neighborhood/services/auth.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart'
+import 'package:CreatePost/CreatePost.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({ Key key }) : super(key: key);
