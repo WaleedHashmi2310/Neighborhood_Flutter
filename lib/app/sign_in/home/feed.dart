@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:neighborhood/creation/create_post.dart';
 import 'package:neighborhood/services/auth.dart';
 import 'package:provider/provider.dart'
-import 'package:CreatePost/CreatePost.dart';
 
 class Feed extends StatefulWidget {
   const Feed({ Key key }) : super(key: key);
