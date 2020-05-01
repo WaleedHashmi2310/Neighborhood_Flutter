@@ -1,12 +1,22 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:neighborhood/services/auth.dart';
-import 'dart:async';
-
 import 'package:provider/provider.dart';
 
+class HomePage extends StatefulWidget {
+  const HomePage({ Key key }) : super(key: key);
+  @override
+  _HomePageState createState() => _HomePageState();
+}
 
-class HomePage extends StatelessWidget {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+  final List<Tab> myTabs = <Tab>[
+    Tab(text: 'Feed'),
+    Tab(text: 'Events'),
+    Tab(text: 'Polls'),
+  ];
 
+  TabController _tabController;
 
   Future<void> _signOut(BuildContext context) async{
     try{
@@ -22,12 +32,20 @@ class HomePage extends StatelessWidget {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Signing Out'),
-            content: Text('Are you sure you want to sign out?', style: TextStyle(fontFamily: 'AirbnbCerealLight'),),
+            title: Text('Signing Out', style: TextStyle(fontFamily: 'AirbnbCereal', fontSize: 20.0),),
+            content: Text('Are you sure you want to sign out?', style: TextStyle(fontSize: 16.0, fontFamily: 'AirbnbCerealLight')),
+            elevation: 2.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(12.0),
+              ),
+//          side: BorderSide(color: Colors.grey[300], width: 1.6),
+            ),
             actions: [
               FlatButton(
                 child: Text(
-                    'Cancel',
+                  'Cancel',
+                  style: TextStyle(fontSize: 14.0),
                 ),
                 textColor: Theme.of(context).accentColor,
                 onPressed: () {
@@ -46,6 +64,18 @@ class HomePage extends StatelessWidget {
           );
         }
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: myTabs.length);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -112,14 +142,41 @@ class HomePage extends StatelessWidget {
 
       appBar: AppBar(
         title: Text(
-            'Demo Hood',
+            'Neighborhood X',
             style: TextStyle(color: Colors.black87, fontSize: 22.0, fontFamily: 'AirbnbCerealBold')
-
         ),
         backgroundColor: Theme.of(context).primaryColor,
         iconTheme: new IconThemeData(color: Colors.black87),
         titleSpacing: 0.0,
-        elevation: 0.0,
+        elevation: 1.0,
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: myTabs,
+          indicatorColor: Theme.of(context).accentColor,
+          labelColor: Colors.black87,
+          unselectedLabelColor: Colors.black54,
+        ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: myTabs.map((Tab tab) {
+          final String label = tab.text.toLowerCase();
+          return Center(
+            child: Text(
+              //'This is the $label tab',
+              'Nothing to show here',
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+          );
+        }).toList(),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your onPressed code here!
+        },
+        child: Icon(Icons.add, color: Colors.white, size: 24.0,),
+        backgroundColor: Theme.of(context).accentColor,
+        elevation: 2.0,
       ),
     );
   }
