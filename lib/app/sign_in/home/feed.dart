@@ -1,20 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:neighborhood/creation/create_post.dart';
 import 'package:neighborhood/services/auth.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({ Key key }) : super(key: key);
+class Feed extends StatefulWidget {
+  const Feed({ Key key }) : super(key: key);
   @override
-  _HomePageState createState() => _HomePageState();
+  FeedState createState() => FeedState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class FeedState extends State<Feed> with SingleTickerProviderStateMixin {
+
+  final currentHood = "Demo";
+
+  String getHood(){
+    return this.currentHood;
+  }
+
   final List<Tab> myTabs = <Tab>[
     Tab(text: 'Feed'),
     Tab(text: 'Events'),
     Tab(text: 'Polls'),
   ];
+
 
   TabController _tabController;
 
@@ -66,6 +75,17 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
+  void _toCreation(){
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+          fullscreenDialog: true,
+          builder: (context) => CreatePost()
+      ),
+    );
+  }
+
+
+
   @override
   void initState() {
     super.initState();
@@ -96,10 +116,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 decoration: BoxDecoration(
                   color: Theme.of(context).accentColor,
                 ),
-//              child: Text(
-//                'DRAWER',
-//                style: TextStyle(color: Colors.white)
-//              )
+              child: Text(
+                'Drawer',
+                style: TextStyle(color: Colors.white)
+              )
 
               ),
               ListTile(
@@ -142,7 +162,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
       appBar: AppBar(
         title: Text(
-            'Neighborhood X',
+            'Askari XI',
             style: TextStyle(color: Colors.black87, fontSize: 22.0, fontFamily: 'AirbnbCerealBold')
         ),
         backgroundColor: Theme.of(context).primaryColor,
@@ -172,6 +192,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          _toCreation();
           // Add your onPressed code here!
         },
         child: Icon(Icons.add, color: Colors.white, size: 24.0,),
