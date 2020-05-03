@@ -2,41 +2,38 @@ import 'package:flutter/material.dart';
 
 class Result{
 
-  String flag;
+  String flag='';
   String title;
-  String post;
-  String category;
-  List<String> poll;
-  Result({this.flag,this.title,this.post,this.category,this.poll}){
-  }
-  void func(){
-    if(flag == 'M'){
-      print('flag $flag');
-      print('flag $category');
-      print('title $title');
-      print('post $post');
-    }
+  String post='';
+  String category='';
+  String option1;
+  String option2;
+  String option3;
+  String option4;
+  Result(this.flag,this.title,this.post,this.category,this.option1,this.option2,this.option3,this.option4);
+ 
+  Map<String, dynamic> toMessage() => {
+    'category': category,
+    'title': title,
+    'post': post,
+  };
 
-    if(flag == 'P'){
-      print('flag $flag');
-      print('title $title');
-      print('post $post');
-      for(var i in poll){
-        print('poll $i');
-      }
-    }
-
-    if(flag=='A'){
-      print('flag $flag');
-      print('Alert is $post');
-    }
-
-    if(flag=='E'){
-      print('flag $flag');
-      print('flag $category');
-      print('title $title');
-      print('post $post');
-
-    }
+   Map<String, dynamic> toPoll() => {
+    'title': title,
+    'description': post,
+    'option1': option1,
+    'option2': option2,
+    'option3': option3,
+    'option4': option4,
+  };
+   Map<String, dynamic> toEvent() => {
+    'title': title,
+    'description': post,
+  };
+   Map<String, dynamic> toAlert() => {
+    'alert': title,
+  };
+  void printTitle(){
+    print('title is $title');
   }
 }

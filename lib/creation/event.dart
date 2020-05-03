@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:neighborhood/creation/result.dart';
 
 class Event extends StatefulWidget {
   @override
@@ -24,6 +26,17 @@ class _EventState extends State<Event> {
   String flag;
   final _eventKey = GlobalKey<FormState>();
   //Result result = Result();
+  Result result;
+  final db = Firestore.instance;
+  void sendData() async {
+    await db.collection("Neighborhoods").document("Demo").collection("Events")
+      .add({
+      'user': 'Insert UserID',
+      'title': titlefield,
+    'description': descriptionfield,
+    });
+
+  } 
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -106,8 +119,8 @@ class _EventState extends State<Event> {
                     titlefield = title.text;
                     flag = 'E';
                     descriptionfield = description.text;
-                    print('Title is $titlefield');
-                    print('message is $descriptionfield');
+                    sendData();
+                     Navigator.of(context).pop();
                   },
                   child: Text(
                     'Post',

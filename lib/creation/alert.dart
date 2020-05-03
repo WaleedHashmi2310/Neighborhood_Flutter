@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:neighborhood/creation/result.dart';
 
 class Alert extends StatefulWidget {
+ 
   @override
   _AlertState createState() => _AlertState();
 }
 
 class _AlertState extends State<Alert> {
-  final title = TextEditingController();
+
+  final title = new TextEditingController();
 
   @override
 
@@ -14,13 +18,15 @@ class _AlertState extends State<Alert> {
   void dispose() {
     // Clean up the controller when the widget is disposed.
 
-    title.dispose();
+    //title.dispose();
     super.dispose();
   }
 
   String titlefield;
   String flag;
   String descriptionfield;
+  Result result;
+  final db = Firestore.instance;
   final _alertKey = GlobalKey<FormState>();
   //Result result = Result();
   @override
@@ -91,8 +97,10 @@ class _AlertState extends State<Alert> {
                           SnackBar(content: Text('Posting your Alert')));
                     }
                     flag= 'A';
-                    titlefield = title.text;
-                    print('Title is $titlefield');
+                    titlefield=title.text;
+                    print('TITLE IS $titlefield');
+                    sendData();
+                    Navigator.of(context).pop();
                   },
                   child: Text(
                     'Post',
@@ -110,4 +118,11 @@ class _AlertState extends State<Alert> {
 
     return form;
   }
+  void sendData() async {
+    await db.collection("Neighborhoods").document("Demo").collection("Alerts")
+      .add({
+        'user': 'Insert UserID',
+        'alert': titlefield
+      });
+  } 
 }
