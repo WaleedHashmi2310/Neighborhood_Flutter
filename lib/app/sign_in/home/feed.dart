@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:neighborhood/creation/create_post.dart';
 import 'package:neighborhood/services/auth.dart';
-import 'package:provider/provider.dart'
+import 'package:provider/provider.dart';
 
 class Feed extends StatefulWidget {
   const Feed({ Key key }) : super(key: key);
@@ -75,7 +75,7 @@ class FeedState extends State<Feed> with SingleTickerProviderStateMixin {
     );
   }
 
-  void _toCreation(){
+  void _toCreation(BuildContext context){
     Navigator.of(context).push(
       MaterialPageRoute<void>(
           fullscreenDialog: true,
@@ -192,7 +192,7 @@ class FeedState extends State<Feed> with SingleTickerProviderStateMixin {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _toCreation();
+          _toCreation(context);
           // Add your onPressed code here!
         },
         child: Icon(Icons.add, color: Colors.white, size: 24.0,),

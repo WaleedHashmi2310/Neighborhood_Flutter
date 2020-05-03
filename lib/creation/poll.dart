@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:neighborhood/creation/result.dart';
 
 class Poll extends StatefulWidget {
   @override
@@ -25,12 +27,30 @@ class _PollState extends State<Poll> {
     super.dispose();
   }
 
-  String questionfield;
+  String titlefield;
   String descriptionfield;
-  List<String> optionfield;
+  String optionfield1;
+  String optionfield2;
+  String optionfield3;
+  String optionfield4;
   String flag;
   final _pollKey = GlobalKey<FormState>();
   //Result result = Result();
+  Result result;
+  final db = Firestore.instance;
+  void sendData() async {
+    await db.collection("Neighborhoods").document("Demo").collection("Polls")
+      .add({
+      'user':' Insert UserID',
+      'title': titlefield,
+    'description': descriptionfield,
+    'option1': optionfield1,
+    'option2': optionfield2,
+    'option3': optionfield3,
+    'option4': optionfield4,
+    });
+
+  } 
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -188,22 +208,15 @@ class _PollState extends State<Poll> {
                       Scaffold.of(context).showSnackBar(
                           SnackBar(content: Text('Creating your poll')));
                     }
-                    questionfield = question.text;
+                    titlefield = question.text;
                     descriptionfield = description.text;
-                    String optionfield1 = option1.text;
-                    String optionfield2 = option2.text;
-                    String optionfield3 = option3.text;
-                    String optionfield4 = option4.text;
+                    optionfield1 = option1.text;
+                    optionfield2 = option2.text;
+                    optionfield3= option3.text;
+                    optionfield4 = option4.text;
+                    sendData();
                     flag= 'P';
-                    optionfield.add(optionfield1);
-                    optionfield.add(optionfield2);
-                    optionfield.add(optionfield3);
-                    optionfield.add(optionfield4);
-                    print('Category is $questionfield');
-                    print('Title is $descriptionfield');
-                    for (var i in optionfield) {
-                      print('option is $i');
-                    }
+                    Navigator.of(context).pop();
                   },
                   child: Text(
                     'Post',
