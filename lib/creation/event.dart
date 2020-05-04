@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:neighborhood/creation/result.dart';
 import 'package:neighborhood/services/auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:uuid/uuid.dart';
 
 class Event extends StatefulWidget {
   @override
@@ -15,6 +17,7 @@ class Event extends StatefulWidget {
 
 class _EventState extends State<Event> {
   final db = Firestore.instance;
+  var uuid = Uuid();
   Result result;
   
 
@@ -32,6 +35,13 @@ class _EventState extends State<Event> {
   }
 
   void sendData() async {
+    var fName = uuid.v4();
+    final StorageReference firebaseStorageRef = FirebaseStorage.instance.ref()
+        .child(fName);
+    final StorageUploadTask task = firebaseStorageRef.putFile(_image);
+    var downUrl = await(await task.onComplete).ref.getDownloadURL();
+    var url = downUrl.toString();
+
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await auth.getUserData();
     await db
@@ -43,6 +53,7 @@ class _EventState extends State<Event> {
       'user_name': user.displayName,
       'title': titleField,
       'description': eventField,
+      'image': url,
     });
   }
   

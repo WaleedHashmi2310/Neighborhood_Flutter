@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:neighborhood/creation/result.dart';
 import 'package:neighborhood/services/auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:uuid/uuid.dart';
 
 class Message extends StatefulWidget {
   @override
@@ -14,6 +16,7 @@ class Message extends StatefulWidget {
 }
 
 class _MessageState extends State<Message> {
+  var uuid = Uuid();
   final db = Firestore.instance;
   Result result;
 
@@ -23,6 +26,16 @@ class _MessageState extends State<Message> {
     'Crime & Safety',
     'Lost & Found'
   ];
+
+  String categoryField;
+  String titleField;
+  String messageField;
+  var userID;
+
+  final _messageKey = GlobalKey<FormState>();
+  //Result result = Result();
+  String _selectedCategory;
+  File _image;
 
   final title = TextEditingController();
 
@@ -37,7 +50,21 @@ class _MessageState extends State<Message> {
     super.dispose();
   }
 
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = image;
+    });
+  }
+
   void sendData() async {
+    var fName = uuid.v4();
+    final StorageReference firebaseStorageRef = FirebaseStorage.instance.ref()
+        .child(fName);
+    final StorageUploadTask task = firebaseStorageRef.putFile(_image);
+    var downUrl = await(await task.onComplete).ref.getDownloadURL();
+    var url = downUrl.toString();
+
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await auth.getUserData();
     await db
@@ -50,25 +77,12 @@ class _MessageState extends State<Message> {
       'category': categoryField,
       'title': titleField,
       'description': messageField,
+      'image': url,
     });
   }
 
-  String categoryField;
-  String titleField;
-  String messageField;
-  var userID;
 
-  final _messageKey = GlobalKey<FormState>();
-  //Result result = Result();
-  String _selectedCategory;
-  File _image;
 
-  Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _image = image;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,15 +93,6 @@ class _MessageState extends State<Message> {
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            // FutureBuilder(
-            //   future: auth.currentUserID(),
-            //   builder: (context,snapshot){
-            //     if(snapshot.connectionState == ConnectionState.done){
-            //       userID=snapshot.data;
-            //       return ;
-            //       }
-            //   }
-            // ),
             Container(
               margin: new EdgeInsets.only(
                   left: blockSize * 10,
