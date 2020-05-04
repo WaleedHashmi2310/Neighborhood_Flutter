@@ -84,17 +84,19 @@ Widget displayUserData(context, snapshot){
             .primaryColorLight,
         child: Text(
             "${getInitials(name)}",
-            style: TextStyle(color: Colors.white)
+            style: TextStyle(color: Colors.white, fontSize: 18.0)
         ),
-        radius: 30.0,
+        radius: 32.0,
       ),
       SizedBox(width: 12.0),
       Text(
-        "${name}",
-        style: TextStyle(color: Colors.white, fontSize: 16.0),
+        "$name",
+        style: TextStyle(color: Colors.white, fontSize: 18.0),
       ),
     ],
   );
+
+
 
 
 

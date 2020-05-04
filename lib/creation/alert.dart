@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:neighborhood/creation/result.dart';
+import 'package:neighborhood/services/auth.dart';
+import 'package:provider/provider.dart';
 
 class Alert extends StatefulWidget {
  
@@ -119,10 +121,18 @@ class _AlertState extends State<Alert> {
     return form;
   }
   void sendData() async {
-    await db.collection("Neighborhoods").document("Demo").collection("Alerts")
-      .add({
-        'user': 'Insert UserID',
-        'alert': titlefield
-      });
-  } 
+    final auth = Provider.of<AuthBase>(context, listen: false);
+    final user = await auth.getUserData();
+    await db
+        .collection("Neighborhoods")
+        .document("Demo")
+        .collection("Events")
+        .add({
+      'user': user.uid,
+      'user_name': user.displayName,
+      'user': 'Insert UserID',
+      'alert': titlefield
+    });
+  }
+
 }

@@ -37,7 +37,9 @@ class Auth implements AuthBase {
     if (user == null) {
       return null;
     }
-    return User(uid: user.uid);
+    return User(
+        uid: user.uid
+    );
   }
 
 

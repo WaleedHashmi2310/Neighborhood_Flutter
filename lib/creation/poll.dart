@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:neighborhood/creation/result.dart';
+import 'package:neighborhood/services/auth.dart';
+import 'package:provider/provider.dart';
 
 class Poll extends StatefulWidget {
   @override
@@ -39,18 +41,24 @@ class _PollState extends State<Poll> {
   Result result;
   final db = Firestore.instance;
   void sendData() async {
-    await db.collection("Neighborhoods").document("Demo").collection("Polls")
-      .add({
-      'user':' Insert UserID',
+    final auth = Provider.of<AuthBase>(context, listen: false);
+    final user = await auth.getUserData();
+    await db
+        .collection("Neighborhoods")
+        .document("Demo")
+        .collection("Polls")
+        .add({
+      'user': user.uid,
+      'user_name': user.displayName,
       'title': titlefield,
-    'description': descriptionfield,
-    'option1': optionfield1,
-    'option2': optionfield2,
-    'option3': optionfield3,
-    'option4': optionfield4,
+      'description': descriptionfield,
+      'option1': optionfield1,
+      'option2': optionfield2,
+      'option3': optionfield3,
+      'option4': optionfield4,
     });
+  }
 
-  } 
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;

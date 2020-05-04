@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -37,15 +38,18 @@ class _MessageState extends State<Message> {
   }
 
   void sendData() async {
+    final auth = Provider.of<AuthBase>(context, listen: false);
+    final user = await auth.getUserData();
     await db
         .collection("Neighborhoods")
         .document("Demo")
         .collection("Messages")
         .add({
-      'user': "Insert UserID",
+      'user': user.uid,
+      'user_name': user.displayName,
       'category': categoryField,
       'title': titleField,
-      'post': messageField,
+      'description': messageField,
     });
   }
 
@@ -68,7 +72,6 @@ class _MessageState extends State<Message> {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthBase>(context, listen: false);
     var width = MediaQuery.of(context).size.width;
     var blockSize = width / 100;
     var form = Form(
@@ -197,12 +200,11 @@ class _MessageState extends State<Message> {
                         onPressed: () {
                           if (_messageKey.currentState.validate()) {
                             Scaffold.of(context).showSnackBar(SnackBar(
-                                content: Text('Posting your Message')));
+                                content: Text('Message Posted!')));
                           }
                           titleField = title.text;
                           messageField = message.text;
                           sendData();
-                          Navigator.of(context).pop();
                         },
                         child: Text(
                           'Post',
@@ -218,9 +220,9 @@ class _MessageState extends State<Message> {
             ),
             Container(
               margin:
-                  EdgeInsets.only(right: blockSize * 50, top: blockSize * 5),
+                  EdgeInsets.only(right: blockSize * 64, top: blockSize * 2),
               child: _image == null
-                  ? Text('No Image Selected.')
+                  ? Text('No Image')
                   : SizedBox(
                       height: 100 % blockSize,
                       width: 100 % blockSize,

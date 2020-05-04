@@ -3,8 +3,7 @@ import 'package:neighborhood/creation/message.dart';
 import 'package:neighborhood/creation/poll.dart';
 import 'package:neighborhood/creation/event.dart';
 import 'package:neighborhood/creation/alert.dart';
-import 'package:neighborhood/services/auth.dart';
-import 'package:provider/provider.dart';
+
 
 //neighborhood->Demo->Collection->
 class CreatePost extends StatelessWidget {
@@ -14,7 +13,7 @@ class CreatePost extends StatelessWidget {
     Tab(text: 'Event'),
     Tab(text: 'Alert'),
   ];
-   
+
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(

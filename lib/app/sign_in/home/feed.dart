@@ -6,6 +6,8 @@ import 'package:neighborhood/creation/create_post.dart';
 import 'package:neighborhood/services/auth.dart';
 import 'package:provider/provider.dart';
 
+import '../../emergency.dart';
+
 class Feed extends StatefulWidget {
   const Feed({ Key key }) : super(key: key);
   @override
@@ -79,15 +81,11 @@ class FeedState extends State<Feed> with SingleTickerProviderStateMixin {
   }
 
   void _toCreation(BuildContext context){
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-          fullscreenDialog: true,
-          builder: (context) => CreatePost()
-      ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CreatePost()),
     );
   }
-
-
 
 
 
@@ -121,7 +119,13 @@ class FeedState extends State<Feed> with SingleTickerProviderStateMixin {
                 decoration: BoxDecoration(
                   color: Theme.of(context).accentColor,
                 ),
-              child: ProfileView()
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ProfileView()
+                  ]
+              )
 
               ),
               ListTile(
@@ -148,7 +152,16 @@ class FeedState extends State<Feed> with SingleTickerProviderStateMixin {
                   // ...
                 },
               ),
-              SizedBox(height: 176.0),
+              ListTile(
+                leading: Icon(Icons.sort),
+                title: Text('View Emergency Helpine'),
+                onTap: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Emergency()),
+                  ),
+                }
+              ),
               ListTile(
                   leading: Icon(Icons.exit_to_app, color: Colors.red[400],),
                   title:Text('Sign Out', style: TextStyle(color: Colors.red[400]),),
