@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -20,6 +21,8 @@ abstract class AuthBase {
   Future<User> signInWithFacebook();
   Future<String> currentUserUID();
   Future getUserData();
+  void setUserName(name);
+  String getUserName();
   Future<User> signInWithEmailAndPassword(String email, String password);
   Future<User> createUserWithEmailAndPassword(String email, String password);
   Future<void> signOut();
@@ -27,6 +30,8 @@ abstract class AuthBase {
 
 class Auth implements AuthBase {
   final _firebaseAuth = FirebaseAuth.instance;
+  final db = Firestore.instance;
+  String emailName;
 
   User _userFromFirebase(FirebaseUser user) {
     if (user == null) {
@@ -47,6 +52,15 @@ class Auth implements AuthBase {
     return _userFromFirebase(user);
   }
 
+  @override
+  void setUserName(name){
+    emailName = name;
+  }
+
+  @override
+  String getUserName(){
+    return emailName;
+  }
 
   @override
   Future<String> currentUserUID() async {
@@ -80,6 +94,18 @@ class Auth implements AuthBase {
             accessToken: googleAuth.accessToken,
           ),
         );
+        final uid = authResult.user.uid;
+        final email = authResult.user.email;
+        final name = authResult.user.displayName;
+        Map<String, String> userMap = {'user':uid, 'name':name, 'email':email};
+        final snapShot = await db
+            .collection('Users')
+            .document(uid)
+            .get();
+        if (snapShot == null || !snapShot.exists){
+          final ref = db.collection('Users');
+          ref.document(uid).setData(userMap);
+        }
         return _userFromFirebase(authResult.user);
       } else {
         throw PlatformException(

@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:neighborhood/app/sign_in/home/profile.dart';
 import 'package:neighborhood/creation/create_post.dart';
 import 'package:neighborhood/services/auth.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +19,7 @@ class FeedState extends State<Feed> with SingleTickerProviderStateMixin {
   String getHood(){
     return this.currentHood;
   }
+
 
   final List<Tab> myTabs = <Tab>[
     Tab(text: 'Feed'),
@@ -86,6 +89,8 @@ class FeedState extends State<Feed> with SingleTickerProviderStateMixin {
 
 
 
+
+
   @override
   void initState() {
     super.initState();
@@ -116,10 +121,7 @@ class FeedState extends State<Feed> with SingleTickerProviderStateMixin {
                 decoration: BoxDecoration(
                   color: Theme.of(context).accentColor,
                 ),
-              child: Text(
-                'Drawer',
-                style: TextStyle(color: Colors.white)
-              )
+              child: ProfileView()
 
               ),
               ListTile(

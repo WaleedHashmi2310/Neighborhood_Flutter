@@ -83,7 +83,8 @@ class SignInPage extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context, bool isLoading) {
-    return Center(
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0.0, 24.0,0.0,24.0),
       child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(32.0, 32.0, 32.0, 32.0),

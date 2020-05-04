@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:neighborhood/common_widgets/platform_exception_alert_dialog.dart';
@@ -14,14 +15,23 @@ class EmailSignUpForm extends StatefulWidget with EmailAndPasswordValidators {
 
 class _EmailSignUpFormState extends State<EmailSignUpForm> {
 
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
+  final FocusNode _nameFocusNode = FocusNode();
 
   String get _email => _emailController.text;
   String get _password => _passwordController.text;
+  String get _name => _nameController.text;
+
   bool _isLoading = false;
+
+  final db = Firestore.instance;
+
 
   void _submit() async {
     setState(() {
@@ -30,7 +40,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
     try {
       final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.createUserWithEmailAndPassword(_email, _password);
-      Navigator.pop(context);
+      Navigator.of(context).pop();
 
     } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(
@@ -38,6 +48,13 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
         exception: e,
       ).show(context);
     } finally {
+      final auth = Provider.of<AuthBase>(context, listen: false);
+      final user = await auth.getUserData();
+      final uid = user.uid;
+      final name = _name;
+      Map<String, String> userMap = {'user':uid, 'name':name, 'email':_email};
+      final ref = db.collection('Users');
+      ref.document(uid).setData(userMap);
       setState(() {
         _isLoading = false;
       });
@@ -52,13 +69,15 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
     FocusScope.of(context).requestFocus(_passwordFocusNode);
   }
 
+
   List<Widget> _buildChildren() {
 
     bool submitEnabled = widget.emailValidator.isValid(_email) &&
-        widget.passwordValidator.isValid(_password) && !_isLoading;
+        widget.passwordValidator.isValid(_password) && widget.nameValidator.isValid(_name) && !_isLoading;
 
 
     return [
+      _buildNameField(),
       _buildEmailTextField(),
       _buildPasswordTextField(),
 
@@ -154,6 +173,38 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
         onChanged: (email) => _updateState()
     );
   }
+
+  TextField _buildNameField() {
+//    bool emailValid = widget.emailValidator.isValid(_email);
+    return TextField(
+        controller: _nameController,
+        focusNode: _nameFocusNode,
+        cursorColor: Colors.black87,
+        style: TextStyle(color: Colors.black87),
+        decoration: InputDecoration(
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.black54),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.black54),
+          ),
+          errorStyle: TextStyle(
+            color: Colors.black54,
+          ),
+          enabled: _isLoading == false,
+          hintText: 'Full Name',
+          hintStyle: TextStyle(
+            color: Colors.black54,
+            fontSize: 18.0,
+          ),
+        ),
+        textInputAction: TextInputAction.next,
+        textCapitalization: TextCapitalization.words,
+        onChanged: (name) => _updateState()
+    );
+  }
+
+
 
   @override
   Widget build(BuildContext context) {

@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:neighborhood/services/auth.dart';
 
 class ProfileView extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
@@ -14,7 +16,7 @@ class ProfileView extends StatelessWidget {
               // ignore: missing_return
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done){
-                  return displayUserInformation(context, snapshot);
+                  return getUserInformation(context, snapshot);
                 } else {
                   return CircularProgressIndicator();
                 }
@@ -26,9 +28,41 @@ class ProfileView extends StatelessWidget {
   }
 }
 
-Widget displayUserInformation(context, snapshot){
+Widget getUserInformation(context, snapshot){
+
+  final db = Firestore.instance;
   final user = snapshot.data;
-  final name = user.displayName;
+
+  Future<String> getName(user) async {
+    final DocumentReference doc = db.collection("Users").document(user.uid);
+    dynamic data;
+    await doc.get().then<dynamic>((DocumentSnapshot snapshot) async {
+      data = snapshot.data;
+    });
+    return data["name"];
+  }
+
+
+  return Container(
+    child:
+      FutureBuilder(
+          future: getName(user),
+          // ignore: missing_return
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done ) {
+              return displayUserData(context, snapshot);
+            } else {
+              return CircularProgressIndicator();
+            }
+          }
+      ),
+  );
+
+}
+
+Widget displayUserData(context, snapshot){
+  final name = snapshot.data;
+
   String getInitials(name) {
     List<String> names = name.split(" ");
     String initials = "";
@@ -42,12 +76,12 @@ Widget displayUserInformation(context, snapshot){
     }
     return initials;
   }
-
   return Row(
-    crossAxisAlignment: CrossAxisAlignment.center,
     children: <Widget>[
       CircleAvatar(
-        backgroundColor: Theme.of(context).primaryColorLight,
+        backgroundColor: Theme
+            .of(context)
+            .primaryColorLight,
         child: Text(
             "${getInitials(name)}",
             style: TextStyle(color: Colors.white)
@@ -56,11 +90,13 @@ Widget displayUserInformation(context, snapshot){
       ),
       SizedBox(width: 12.0),
       Text(
-        "${snapshot.data.displayName}",
+        "${name}",
         style: TextStyle(color: Colors.white, fontSize: 16.0),
       ),
-
     ],
   );
 
+
+
 }
+

@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         title: 'Time Tracker',
         theme: ThemeData(
           primaryColor: Colors.white,
-          primaryColorLight: Color(0x666ad1),
+          primaryColorLight: Colors.lightBlue[300],
           primaryColorDark: Color(0x001970),
           accentColor: Colors.lightBlue[700],
           fontFamily: 'AirbnbCereal',
