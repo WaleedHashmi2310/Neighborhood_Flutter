@@ -214,7 +214,7 @@ class _PollState extends State<Poll> {
                       // you'd often call a server or save the information in a database.
 
                       Scaffold.of(context).showSnackBar(
-                          SnackBar(content: Text('Creating your poll')));
+                          SnackBar(content: Text('Poll Created')));
                     }
                     titlefield = question.text;
                     descriptionfield = description.text;

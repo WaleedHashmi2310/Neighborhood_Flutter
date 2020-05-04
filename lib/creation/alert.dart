@@ -81,7 +81,7 @@ class _AlertState extends State<Alert> {
                       color: Colors.black),
                 )),
             Container(
-              margin: EdgeInsets.only(left: blockSize * 25, top: blockSize * 15),
+              margin: EdgeInsets.only(left: blockSize * 32, top: blockSize * 6),
               child: SizedBox(
                 height: blockSize * 15,
                 width: blockSize * 50,
@@ -96,7 +96,7 @@ class _AlertState extends State<Alert> {
                       // you'd often call a server or save the information in a database.
 
                       Scaffold.of(context).showSnackBar(
-                          SnackBar(content: Text('Posting your Alert')));
+                          SnackBar(content: Text('Alert Created')));
                     }
                     flag= 'A';
                     titlefield=title.text;
@@ -130,7 +130,6 @@ class _AlertState extends State<Alert> {
         .add({
       'user': user.uid,
       'user_name': user.displayName,
-      'user': 'Insert UserID',
       'alert': titlefield
     });
   }

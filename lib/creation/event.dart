@@ -71,8 +71,9 @@ class _EventState extends State<Event> {
         child: Column(
           children: <Widget>[
             Container(
-              margin:
-              EdgeInsets.only(top: blockSize * 5, right: blockSize * 10),
+              margin: new EdgeInsets.only(
+                  right: blockSize * 10.0,
+                  top: blockSize * 10.0),
               child: TextFormField(
                 controller: title,
                 maxLength: 30,
@@ -153,7 +154,7 @@ class _EventState extends State<Event> {
                         onPressed: () {
                           if (_eventKey.currentState.validate()) {
                             Scaffold.of(context).showSnackBar(SnackBar(
-                                content: Text('Event Posted!')));
+                                content: Text('Event Created!')));
                           }
                           titleField = title.text;
                           eventField = event.text;

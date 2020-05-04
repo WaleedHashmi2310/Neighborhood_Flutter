@@ -200,7 +200,7 @@ class _MessageState extends State<Message> {
                         onPressed: () {
                           if (_messageKey.currentState.validate()) {
                             Scaffold.of(context).showSnackBar(SnackBar(
-                                content: Text('Message Posted!')));
+                                content: Text('Message Created!')));
                           }
                           titleField = title.text;
                           messageField = message.text;
