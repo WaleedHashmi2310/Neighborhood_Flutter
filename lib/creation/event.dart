@@ -44,6 +44,7 @@ class _EventState extends State<Event> {
 
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await auth.getUserData();
+    var comments = new Map();
     await db
         .collection("Neighborhoods")
         .document("Demo")
@@ -54,6 +55,8 @@ class _EventState extends State<Event> {
       'title': titleField,
       'description': eventField,
       'image': url,
+      'comments': comments,
+      'timestamp': DateTime.now(),
     });
   }
   

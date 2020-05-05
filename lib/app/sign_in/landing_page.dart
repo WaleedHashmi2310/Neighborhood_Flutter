@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:neighborhood/app/sign_in/sign_in_page.dart';
 import 'package:neighborhood/services/auth.dart';
-import 'package:neighborhood/app/sign_in/home/feed.dart';
+import 'package:neighborhood/app/sign_in/home/home.dart';
 import 'package:provider/provider.dart';
 
 class LandingPage extends StatelessWidget {
@@ -17,7 +17,7 @@ class LandingPage extends StatelessWidget {
             if (user == null) {
               return SignInPage.create(context);
             } else {
-              return Feed();
+              return Home();
             }
           } else {
             return Scaffold(

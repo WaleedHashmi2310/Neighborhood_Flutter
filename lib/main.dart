@@ -14,13 +14,13 @@ class MyApp extends StatelessWidget {
     return Provider<AuthBase>(
       create: (context) => Auth(),
       child: MaterialApp(
-        title: 'Time Tracker',
+        title: 'Neighborhood',
         theme: ThemeData(
           primaryColor: Colors.white,
           primaryColorLight: Colors.lightBlue[300],
           primaryColorDark: Color(0x001970),
           accentColor: Colors.lightBlue[700],
-          fontFamily: 'AirbnbCereal',
+          fontFamily: 'Roboto',
         ),
         home: LandingPage(),
       ),

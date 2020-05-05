@@ -52,6 +52,7 @@ class _PollState extends State<Poll> {
       'user_name': user.displayName,
       'title': titlefield,
       'description': descriptionfield,
+      'timestamp': DateTime.now(),
       'option1': optionfield1,
       'option2': optionfield2,
       'option3': optionfield3,
