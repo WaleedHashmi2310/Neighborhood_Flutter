@@ -44,6 +44,7 @@ class _ExpandableCardState extends State<ExpandableCard> {
 //    var time = DateTime(2020, 5, 4);
 //    var currentTime = DateTime.now();
 //    final difference = currentTime.difference(time).inDays;
+  if(widget.username != null && widget.title != null && widget.description != null && widget.category != null){
     return ExpandableNotifier(
         child: Padding(
           padding: const EdgeInsets.all(4),
@@ -193,7 +194,14 @@ class _ExpandableCardState extends State<ExpandableCard> {
               ],
             ),
           ),
-        ));
+        )
+    );
+  } else {
+    return Container(
+      color: Colors.white,
+    );
+  }
+
   }
 
   Widget imageBuilder(BuildContext context){
