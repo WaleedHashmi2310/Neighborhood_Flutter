@@ -1,33 +1,53 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:neighborhood/common_widgets/expandable_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Feed extends StatelessWidget {
-  String username = "Waleed Hashmi";
-  String category = "For Sale & Free";
-  String title = "Slightly used couch for sale";
-  String description = "Seliing a 3-seater couch in mint condition. Item can be checked at House#23";
 
+class Feed extends StatefulWidget {
+  @override
+  _FeedState createState() => _FeedState();
+}
+
+class _FeedState extends State<Feed> {
+  final db = Firestore.instance;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: ExpandableTheme(
-            data:
-            const ExpandableThemeData(iconColor: Colors.blue, useInkWell: true),
-            child: ListView(
-              physics: const BouncingScrollPhysics(),
-              children: <Widget>[
-                ExpandableCard(
-                  title: title,
-                  description: description,
-                  username: username,
-                  category: category,
-                ),
-              ],
-            )
+    return Container(
+        child: StreamBuilder<QuerySnapshot>(
+          stream: db
+              .collection("Neighborhoods")
+              .document("Demo")
+              .collection("Messages")
+              .snapshots(),
+          // ignore: missing_return
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+            if(snapshot.hasError)
+              return new Text('Error: ${snapshot.error}');
+            switch (snapshot.connectionState){
+              case ConnectionState.waiting: return new Text('Loading...');
+              default:
+                return new ListView(
+                  children: snapshot.data.documents.map((DocumentSnapshot document){
+                    return new ExpandableCard(
+                      title: document['title'],
+                      description: document['description'],
+                      username: document['user_name'],
+                      category: document['category'],
+                      image: document['image'],
+                    );
+                  }).toList(),
+                );
+            }
+          }
         )
     );
   }
 }
+
+
+
+
+
 
 
