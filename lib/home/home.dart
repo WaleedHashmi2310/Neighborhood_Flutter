@@ -1,20 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:neighborhood/app/sign_in/home/profile.dart';
 import 'package:neighborhood/creation/create_post.dart';
+import 'package:neighborhood/home/view_all_polls.dart';
+import 'package:neighborhood/home/view_all_events.dart';
+import 'package:neighborhood/home/profile.dart';
 import 'package:neighborhood/services/auth.dart';
 import 'package:provider/provider.dart';
+import 'emergency.dart';
+import 'feed.dart';
 
-import '../../emergency.dart';
-
-class Feed extends StatefulWidget {
-  const Feed({ Key key }) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({ Key key }) : super(key: key);
   @override
-  FeedState createState() => FeedState();
+  HomeState createState() => HomeState();
 }
 
-class FeedState extends State<Feed> with SingleTickerProviderStateMixin {
+class HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   final currentHood = "Demo";
 
@@ -24,7 +26,7 @@ class FeedState extends State<Feed> with SingleTickerProviderStateMixin {
 
 
   final List<Tab> myTabs = <Tab>[
-    Tab(text: 'Feed'),
+    Tab(text: 'Home'),
     Tab(text: 'Events'),
     Tab(text: 'Polls'),
   ];
@@ -117,7 +119,7 @@ class FeedState extends State<Feed> with SingleTickerProviderStateMixin {
             children: <Widget>[
               DrawerHeader(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).accentColor,
+                  color: Colors.grey[200],
                 ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -177,7 +179,7 @@ class FeedState extends State<Feed> with SingleTickerProviderStateMixin {
 
       appBar: AppBar(
         title: Text(
-            'Askari XI',
+            'Demo Hood',
             style: TextStyle(color: Colors.black87, fontSize: 22.0, fontFamily: 'AirbnbCerealBold')
         ),
         backgroundColor: Theme.of(context).primaryColor,
@@ -194,16 +196,7 @@ class FeedState extends State<Feed> with SingleTickerProviderStateMixin {
       ),
       body: TabBarView(
         controller: _tabController,
-        children: myTabs.map((Tab tab) {
-          final String label = tab.text.toLowerCase();
-          return Center(
-            child: Text(
-              //'This is the $label tab',
-              'Nothing to show here',
-              style: const TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-          );
-        }).toList(),
+        children: <Widget>[Feed(), Events(), Polls()],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

@@ -5,9 +5,9 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:neighborhood/creation/result.dart';
 import 'package:neighborhood/services/auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
 
 class Message extends StatefulWidget {
@@ -58,15 +58,19 @@ class _MessageState extends State<Message> {
   }
 
   void sendData() async {
-    var fName = uuid.v4();
-    final StorageReference firebaseStorageRef = FirebaseStorage.instance.ref()
-        .child(fName);
-    final StorageUploadTask task = firebaseStorageRef.putFile(_image);
-    var downUrl = await(await task.onComplete).ref.getDownloadURL();
-    var url = downUrl.toString();
+    String url;
+    if (_image != null){
+      var fName = uuid.v4();
+      final StorageReference firebaseStorageRef = FirebaseStorage.instance.ref()
+          .child(fName);
+      final StorageUploadTask task = firebaseStorageRef.putFile(_image);
+      var downUrl = await(await task.onComplete).ref.getDownloadURL();
+      url = downUrl.toString();
+    }
 
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await auth.getUserData();
+    var comments = new Map();
     await db
         .collection("Neighborhoods")
         .document("Demo")
@@ -78,6 +82,8 @@ class _MessageState extends State<Message> {
       'title': titleField,
       'description': messageField,
       'image': url,
+      'comments': comments,
+      'timestamp': DateTime.now(),
     });
   }
 

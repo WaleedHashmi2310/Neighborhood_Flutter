@@ -16,6 +16,13 @@ class CreatePost extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Colors.white,
+        primaryColorLight: Colors.lightBlue[300],
+        primaryColorDark: Color(0x001970),
+        accentColor: Colors.blue,
+        fontFamily: 'Roboto',
+      ),
       home: DefaultTabController(
         length: 4,
         child: Scaffold(
@@ -38,7 +45,8 @@ class CreatePost extends StatelessWidget {
                 unselectedLabelColor: Colors.black54,
               )),
           body: TabBarView(
-              children: <Widget>[Message(), Poll(), Event(), Alert()]),
+              children: <Widget>[Message(), Poll(), Event(), Alert()]
+          ),
         ),
       ),
     );

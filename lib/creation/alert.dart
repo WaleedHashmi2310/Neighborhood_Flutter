@@ -130,7 +130,8 @@ class _AlertState extends State<Alert> {
         .add({
       'user': user.uid,
       'user_name': user.displayName,
-      'alert': titlefield
+      'alert': titlefield,
+      'timestamp': DateTime.now(),
     });
   }
 
