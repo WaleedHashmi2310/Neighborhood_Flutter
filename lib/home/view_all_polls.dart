@@ -38,6 +38,7 @@ class Polls extends StatelessWidget {
                                 voted: document['voted'],
                                 totalVotes: document['totalvotes'],
                                 docID: document.documentID,
+                                time: document['timestamp'],
                               );
                             }).toList(),
                           );

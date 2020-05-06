@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:neighborhood/app/sign_in/home/events.dart';
-import 'package:neighborhood/app/sign_in/home/polls.dart';
-import 'package:neighborhood/app/sign_in/home/profile.dart';
 import 'package:neighborhood/creation/create_post.dart';
+import 'package:neighborhood/home/view_all_polls.dart';
+import 'package:neighborhood/home/view_all_events.dart';
+import 'package:neighborhood/home/profile.dart';
 import 'package:neighborhood/services/auth.dart';
 import 'package:provider/provider.dart';
-import '../../emergency.dart';
+import 'emergency.dart';
 import 'feed.dart';
 
 class Home extends StatefulWidget {

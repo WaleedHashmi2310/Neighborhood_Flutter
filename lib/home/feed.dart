@@ -39,6 +39,7 @@ class _FeedState extends State<Feed> {
                             username: document['user_name'],
                             category: document['category'],
                             image: document['image'],
+                            time: document['timestamp'],
                           );
                         }).toList(),
                       );

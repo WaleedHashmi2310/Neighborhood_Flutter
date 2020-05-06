@@ -15,6 +15,7 @@ class PollCard extends StatefulWidget {
     this.voted,
     this.totalVotes,
     this.docID,
+    this.time,
   });
   final String username;
   final String title;
@@ -22,10 +23,12 @@ class PollCard extends StatefulWidget {
   final List voted;
   final totalVotes;
   final docID;
+  final time;
 }
 
 class _PollCardState extends State<PollCard> {
   final db = Firestore.instance;
+  String timeStamp;
 
   String getInitials(name) {
     List<String> names = name.split(" ");
@@ -51,11 +54,23 @@ class _PollCardState extends State<PollCard> {
     }
   }
 
+  void getTime() {
+    final old = widget.time.toDate();
+    final now = DateTime.now();
+    final difference = now.difference(old).inDays;
+    if (difference == 0)
+      timeStamp = "Today";
+    else if(difference == 1)
+      timeStamp = "Yesterday";
+    else
+      timeStamp = "$difference" + "days ago";
+  }
+
 
 
   @override
   Widget build(BuildContext context) {
-
+    getTime();
     checkDone();
     var _keys = widget.optionsAndVotes.keys.toList();
     var _values = widget.optionsAndVotes.values.toList();
@@ -130,7 +145,7 @@ class _PollCardState extends State<PollCard> {
                             child: CircleAvatar(
                               backgroundColor: Theme
                                   .of(context)
-                                  .primaryColorLight,
+                                  .accentColor,
                               child: Text(
                                   "${getInitials(widget.username)}",
                                   style: TextStyle(color: Colors.white,
@@ -144,6 +159,7 @@ class _PollCardState extends State<PollCard> {
                         SizedBox(width: 8.0),
 
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Container(
                               child: Text(
@@ -151,6 +167,12 @@ class _PollCardState extends State<PollCard> {
                                 style: TextStyle(color: Colors.grey[700],
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14.0),
+                              ),
+                            ),
+                            Container(
+                              child: Text(
+                                timeStamp,
+                                style: TextStyle(color: Colors.grey, fontSize: 12.0),
                               ),
                             ),
                           ],

@@ -10,12 +10,14 @@ class ExpandableCard extends StatefulWidget {
     this.description,
     this.category,
     this.image,
+    this.time,
   });
   final String username;
   final String title;
   final String description;
   final String category;
   final String image;
+  final time;
 
   @override
   _ExpandableCardState createState() => _ExpandableCardState();
@@ -24,6 +26,7 @@ class ExpandableCard extends StatefulWidget {
 class _ExpandableCardState extends State<ExpandableCard> {
 
   Color _iconColor = Colors.grey;
+  String timeStamp;
 
   String getInitials(name) {
     List<String> names = name.split(" ");
@@ -39,12 +42,23 @@ class _ExpandableCardState extends State<ExpandableCard> {
     return initials;
   }
 
+  void getTime() {
+    final old = widget.time.toDate();
+    final now = DateTime.now();
+    final difference = now.difference(old).inDays;
+    if (difference == 0)
+      timeStamp = "Today";
+    else if(difference == 1)
+      timeStamp = "Yesterday";
+    else
+      timeStamp = "$difference" + "days ago";
+  }
+
   @override
   Widget build(BuildContext context) {
-//    var time = DateTime(2020, 5, 4);
-//    var currentTime = DateTime.now();
-//    final difference = currentTime.difference(time).inDays;
-  if(widget.username != null && widget.title != null && widget.description != null && widget.category != null){
+
+  if(widget.username != null && widget.title != null && widget.description != null && widget.category != null &&widget.time != null){
+    getTime();
     return ExpandableNotifier(
         child: Padding(
           padding: const EdgeInsets.all(2),
@@ -75,11 +89,18 @@ class _ExpandableCardState extends State<ExpandableCard> {
                         SizedBox(width: 8.0),
 
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Container(
                               child: Text(
                                 widget.username,
                                 style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.w500, fontSize: 14.0),
+                              ),
+                            ),
+                            Container(
+                              child: Text(
+                                timeStamp,
+                                style: TextStyle(color: Colors.grey, fontSize: 12.0),
                               ),
                             ),
                           ],
