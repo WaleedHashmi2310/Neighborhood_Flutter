@@ -77,11 +77,12 @@ Widget displayUserData(context, snapshot){
     return initials;
   }
   return Row(
+    mainAxisAlignment: MainAxisAlignment.start,
     children: <Widget>[
       CircleAvatar(
         backgroundColor: Theme
             .of(context)
-            .primaryColorLight,
+            .accentColor,
         child: Text(
             "${getInitials(name)}",
             style: TextStyle(color: Colors.white, fontSize: 18.0)
@@ -91,7 +92,7 @@ Widget displayUserData(context, snapshot){
       SizedBox(width: 12.0),
       Text(
         "$name",
-        style: TextStyle(color: Colors.white, fontSize: 18.0),
+        style: TextStyle(color: Colors.black87, fontSize: 18.0),
       ),
     ],
   );

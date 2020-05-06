@@ -119,7 +119,7 @@ class HomeState extends State<Home> with SingleTickerProviderStateMixin {
             children: <Widget>[
               DrawerHeader(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).accentColor,
+                  color: Colors.grey[200],
                 ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,

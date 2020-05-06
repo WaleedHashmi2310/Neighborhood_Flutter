@@ -47,8 +47,9 @@ class _ExpandableCardState extends State<ExpandableCard> {
   if(widget.username != null && widget.title != null && widget.description != null && widget.category != null){
     return ExpandableNotifier(
         child: Padding(
-          padding: const EdgeInsets.all(4),
+          padding: const EdgeInsets.all(2),
           child: Card(
+            elevation: 2.0,
             clipBehavior: Clip.antiAlias,
             child: Column(
               children: <Widget>[
@@ -62,7 +63,7 @@ class _ExpandableCardState extends State<ExpandableCard> {
                             child: CircleAvatar(
                               backgroundColor: Theme
                                   .of(context)
-                                  .primaryColorLight,
+                                  .accentColor,
                               child: Text(
                                   "${getInitials(widget.username)}",
                                   style: TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.w500)
@@ -143,13 +144,6 @@ class _ExpandableCardState extends State<ExpandableCard> {
                   ),
                 ),
                 Container(
-//                  decoration: BoxDecoration(
-//                    border: Border(
-//                      top: BorderSide(
-//                        color: Colors.grey[400],
-//                      )
-//                    )
-//                  ),
                   child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,

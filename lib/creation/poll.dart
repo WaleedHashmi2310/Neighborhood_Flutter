@@ -30,11 +30,11 @@ class _PollState extends State<Poll> {
   }
 
   String titlefield;
-  String descriptionfield;
   String optionfield1;
   String optionfield2;
   String optionfield3;
   String optionfield4;
+
   String flag;
   final _pollKey = GlobalKey<FormState>();
   //Result result = Result();
@@ -42,7 +42,15 @@ class _PollState extends State<Poll> {
   final db = Firestore.instance;
   void sendData() async {
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await auth.getUserData();
+    final user = await auth.getUserData();  int totalVotes = 0;
+    var voted = [];
+    var optionsAndVotes = new Map();
+    optionsAndVotes["$optionfield1"] = 0;
+    optionsAndVotes["$optionfield2"] = 0;
+    if (optionfield3.isNotEmpty)
+      optionsAndVotes["$optionfield3"] = 0;
+    if (optionfield4.isNotEmpty)
+      optionsAndVotes["$optionfield4"] = 0;
     await db
         .collection("Neighborhoods")
         .document("Demo")
@@ -51,12 +59,11 @@ class _PollState extends State<Poll> {
       'user': user.uid,
       'user_name': user.displayName,
       'title': titlefield,
-      'description': descriptionfield,
       'timestamp': DateTime.now(),
-      'option1': optionfield1,
-      'option2': optionfield2,
-      'option3': optionfield3,
-      'option4': optionfield4,
+      'totalvotes': totalVotes,
+      'options_and_votes': optionsAndVotes,
+      'voted': voted,
+
     });
   }
 
@@ -89,31 +96,6 @@ class _PollState extends State<Poll> {
                   ),
                   hintText: 'Ask a Question',
                   labelText: 'Question',
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(right: blockSize* 10),
-              child: TextFormField(
-                controller: description,
-                keyboardType: TextInputType.multiline,
-                maxLines: 5,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter a description';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(blockSize*10),
-                    borderSide: BorderSide(),
-                  ),
-                  //contentPadding: const EdgeInsets.symmetric(vertical: 50.0),
-                  icon: Icon(Icons.keyboard_arrow_right),
-                  hintText: 'Enter your Description',
-                  labelText: 'Description',
                 ),
               ),
             ),
@@ -215,17 +197,15 @@ class _PollState extends State<Poll> {
                       // you'd often call a server or save the information in a database.
 
                       Scaffold.of(context).showSnackBar(
-                          SnackBar(content: Text('Poll Created')));
+                          SnackBar(content: Text('Poll Created!')));
                     }
                     titlefield = question.text;
-                    descriptionfield = description.text;
                     optionfield1 = option1.text;
                     optionfield2 = option2.text;
                     optionfield3= option3.text;
                     optionfield4 = option4.text;
                     sendData();
                     flag= 'P';
-                    Navigator.of(context).pop();
                   },
                   child: Text(
                     'Post',

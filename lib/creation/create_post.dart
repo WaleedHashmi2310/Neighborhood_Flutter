@@ -20,7 +20,7 @@ class CreatePost extends StatelessWidget {
         primaryColor: Colors.white,
         primaryColorLight: Colors.lightBlue[300],
         primaryColorDark: Color(0x001970),
-        accentColor: Colors.lightBlue[700],
+        accentColor: Colors.blue,
         fontFamily: 'Roboto',
       ),
       home: DefaultTabController(

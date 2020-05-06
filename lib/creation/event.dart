@@ -35,12 +35,15 @@ class _EventState extends State<Event> {
   }
 
   void sendData() async {
-    var fName = uuid.v4();
-    final StorageReference firebaseStorageRef = FirebaseStorage.instance.ref()
-        .child(fName);
-    final StorageUploadTask task = firebaseStorageRef.putFile(_image);
-    var downUrl = await(await task.onComplete).ref.getDownloadURL();
-    var url = downUrl.toString();
+    String url;
+    if (_image != null){
+      var fName = uuid.v4();
+      final StorageReference firebaseStorageRef = FirebaseStorage.instance.ref()
+          .child(fName);
+      final StorageUploadTask task = firebaseStorageRef.putFile(_image);
+      var downUrl = await(await task.onComplete).ref.getDownloadURL();
+      url = downUrl.toString();
+    }
 
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await auth.getUserData();
