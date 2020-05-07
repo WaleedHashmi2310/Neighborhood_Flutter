@@ -61,10 +61,6 @@ class _FeedState extends State<Feed> {
     );
   }
 
-  Widget myStreams(){
-
-  }
-
 
 }
 

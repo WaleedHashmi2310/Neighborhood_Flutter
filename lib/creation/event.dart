@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
@@ -17,7 +16,7 @@ class Event extends StatefulWidget {
 }
 
 class _EventState extends State<Event> {
-  final db = Firestore.instance;
+  final db = Firestore.instance;//link to firebase
   var uuid = Uuid();
   Result result;
 
@@ -34,7 +33,7 @@ class _EventState extends State<Event> {
     title.dispose();
     super.dispose();
   }
-
+//This function uploads  all the data from the Message field to the database
   void sendData() async {
     String url;
     if (_image != null){
@@ -44,12 +43,13 @@ class _EventState extends State<Event> {
       final StorageUploadTask task = firebaseStorageRef.putFile(_image);
       var downUrl = await(await task.onComplete).ref.getDownloadURL();
       url = downUrl.toString();
-    }
+    }//waiting for image to upload to database.
 
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await auth.getUserData();
     var finalUser = await auth.getName(user);
     var comments = new Map();
+    //Accesses database tree structure for appropriate storage
     await db
         .collection("Neighborhoods")
         .document("Demo")
@@ -72,9 +72,9 @@ class _EventState extends State<Event> {
   final _eventKey = GlobalKey<FormState>();
   //Result result = Result();
   File _image;
-
+//This function allows the user to upload an image.
   Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);//await function, waits for image to upload
     setState(() {
       _image = image;
     });
@@ -82,31 +82,33 @@ class _EventState extends State<Event> {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;//Gets the width of the user's screen to adjust size of text boxes accordingly
     var blockSize = width / 100;
     var form = Form(
       key: _eventKey,
-      child: SingleChildScrollView(
+      child: SingleChildScrollView(//Creates a scrollable page incase the height of the page is longer than the user's phone screen.
         child: Column(
           children: <Widget>[
             Container(
               margin: new EdgeInsets.only(
+                //Aligns Text box on screen
                   right: blockSize * 10.0,
                   top: blockSize * 10.0),
               child: TextFormField(
                 controller: title,
-                maxLength: 60,
+                maxLength: 30,// max length of title is 30 character
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Please enter a Title';
+                    return 'Please enter a Title';//Shows error title box is not filled
                   }
                   return null;
                 },
+                //This is for aesthetic purposes, creates rounded border
                 decoration: InputDecoration(
                   icon: Icon(Icons.keyboard_arrow_right),
                   fillColor: Colors.white,
                   border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(blockSize * 25.0),
+                    borderRadius: new BorderRadius.circular(blockSize * 5.0),//Tapers Text box border
                     borderSide: BorderSide(),
                   ),
                   hintText: 'Enter your Title',
@@ -115,26 +117,29 @@ class _EventState extends State<Event> {
                 onSaved: (String value) {},
               ),
             ),
+            //Container for Description textbox
             Container(
               margin:
+              //aligns textbox on screen
               EdgeInsets.only(right: blockSize * 10, top: blockSize * 5),
               child: TextFormField(
-                controller: event,
-                keyboardType: TextInputType.multiline,
+                controller: event,// Controller to store value for later use
+                keyboardType: TextInputType.multiline,//Message can span across multiple lines.
                 maxLines: null,
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Please enter the description';
+                    return 'Please enter the description';//shows error if box is left empty
                   }
                   return null;
                 },
+                //Decoration for the box
                 decoration: InputDecoration(
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(blockSize * 25.0),
+                    borderRadius: BorderRadius.circular(blockSize * 5.0),//Tapers boxedge
                     borderSide: BorderSide(),
                   ),
-                  icon: Icon(Icons.keyboard_arrow_right),
+                  icon: Icon(Icons.keyboard_arrow_right),//displays arrow on the left side of the description
                   hintText: 'Enter event description',
                   labelText: 'Description',
                 ),
@@ -153,7 +158,7 @@ class _EventState extends State<Event> {
                     child: FloatingActionButton(
                       onPressed: getImage,
                       tooltip: 'Pick Image',
-                      child: new Icon(Icons.add_photo_alternate, color: Colors.white),
+                      child: new Icon(Icons.add_a_photo, color: Colors.white,),
                       backgroundColor: Theme.of(context).accentColor,
                       elevation: 1.0,
                     ),
@@ -166,9 +171,10 @@ class _EventState extends State<Event> {
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
                             borderRadius:
-                            new BorderRadius.circular(blockSize * 18.0),
+                            new BorderRadius.circular(blockSize * 25.0),
                             side: BorderSide(
-                                color: Theme.of(context).accentColor)),
+                                color: Theme.of(context).accentColor)
+                        ),
                         color: Theme.of(context).accentColor,
                         elevation: 1.0,
                         onPressed: () {

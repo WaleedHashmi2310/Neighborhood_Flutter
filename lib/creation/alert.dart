@@ -5,7 +5,7 @@ import 'package:neighborhood/services/auth.dart';
 import 'package:provider/provider.dart';
 
 class Alert extends StatefulWidget {
- 
+
   @override
   _AlertState createState() => _AlertState();
 }
@@ -44,7 +44,7 @@ class _AlertState extends State<Alert> {
               margin: EdgeInsets.only(right: blockSize* 10, top:blockSize *10),
               child: TextFormField(
                 controller: title,
-                maxLength: 60,
+                maxLength: 30,
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please enter an Alert';
@@ -55,7 +55,7 @@ class _AlertState extends State<Alert> {
                   icon: Icon(Icons.keyboard_arrow_right),
                   fillColor: Colors.white,
                   border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(blockSize*25.0),
+                    borderRadius: new BorderRadius.circular(blockSize * 5.0),
                     borderSide: BorderSide(),
                   ),
                   hintText: 'Enter your Alert!',
@@ -87,7 +87,7 @@ class _AlertState extends State<Alert> {
                 width: blockSize * 50,
                 child: RaisedButton(
                   shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(blockSize*18.0),
+                      borderRadius: new BorderRadius.circular(blockSize*25.0),
                       side: BorderSide(color: Theme.of(context).accentColor)),
                   color: Theme.of(context).accentColor,
                   onPressed: () {
@@ -102,6 +102,7 @@ class _AlertState extends State<Alert> {
                     titlefield=title.text;
                     print('TITLE IS $titlefield');
                     sendData();
+                    Navigator.of(context).pop();
                   },
                   child: Text(
                     'Post',
@@ -123,17 +124,15 @@ class _AlertState extends State<Alert> {
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await auth.getUserData();
     var finalUser = await auth.getName(user);
-    final dismissed = [];
     await db
         .collection("Neighborhoods")
         .document("Demo")
-        .collection("Alerts")
+        .collection("Events")
         .add({
       'user': user.uid,
       'user_name': finalUser,
       'alert': titlefield,
       'timestamp': DateTime.now(),
-      'dismissed': dismissed,
     });
   }
 

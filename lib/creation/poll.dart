@@ -93,7 +93,7 @@ class _PollState extends State<Poll> {
                   icon: Icon(Icons.keyboard_arrow_right),
                   fillColor: Colors.white,
                   border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(blockSize*25.0),
+                    borderRadius: new BorderRadius.circular(blockSize*5.0),
                     borderSide: BorderSide(),
                   ),
                   hintText: 'Ask a Question',
@@ -116,7 +116,7 @@ class _PollState extends State<Poll> {
                   icon: Icon(Icons.keyboard_arrow_right),
                   fillColor: Colors.white,
                   border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(blockSize*25.0),
+                    borderRadius: new BorderRadius.circular(blockSize*5.0),
                     borderSide: BorderSide(),
                   ),
                   hintText: 'Write an Option',
@@ -139,7 +139,7 @@ class _PollState extends State<Poll> {
                   icon: Icon(Icons.keyboard_arrow_right),
                   fillColor: Colors.white,
                   border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(blockSize*25.0),
+                    borderRadius: new BorderRadius.circular(blockSize*5.0),
                     borderSide: BorderSide(),
                   ),
                   hintText: 'Write an Option',
@@ -156,7 +156,7 @@ class _PollState extends State<Poll> {
                   icon: Icon(Icons.keyboard_arrow_right),
                   fillColor: Colors.white,
                   border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(blockSize*25.0),
+                    borderRadius: new BorderRadius.circular(blockSize*5.0),
                     borderSide: BorderSide(),
                   ),
                   hintText: 'Write an Option',
@@ -173,7 +173,7 @@ class _PollState extends State<Poll> {
                   icon: Icon(Icons.keyboard_arrow_right),
                   fillColor: Colors.white,
                   border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(blockSize*25.0),
+                    borderRadius: new BorderRadius.circular(blockSize*5.0),
                     borderSide: BorderSide(),
                   ),
                   hintText: 'Write an Option',
@@ -188,7 +188,7 @@ class _PollState extends State<Poll> {
                 width: 200,
                 child: RaisedButton(
                   shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(blockSize*18.0),
+                      borderRadius: new BorderRadius.circular(blockSize*25.0),
                       side: BorderSide(color: Theme.of(context).accentColor)),
                   color: Theme.of(context).accentColor,
                   elevation: 1.0,

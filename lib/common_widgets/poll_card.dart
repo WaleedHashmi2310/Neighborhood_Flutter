@@ -121,11 +121,11 @@ class _PollCardState extends State<PollCard> {
 
     var factor = 1.0;
     if (totalOptions == 2)
-      factor = 1.8;
+      factor = 1.9;
     if (totalOptions == 3)
-      factor = 1.5;
+      factor = 1.6;
     if (totalOptions == 4)
-      factor = 1.3;
+      factor = 1.4;
 
     return Container(
       child: Padding(
@@ -286,7 +286,6 @@ class _PollCardState extends State<PollCard> {
               return check();
           }
         ),
-        SizedBox(height: 8.0,),
       ],
     );
   }
@@ -336,7 +335,6 @@ class _PollCardState extends State<PollCard> {
               return check(option3);
           },
         ),
-        SizedBox(height: 8.0,),
         FlatButton(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -366,7 +364,6 @@ class _PollCardState extends State<PollCard> {
               return check(option4);
           },
         ),
-        SizedBox(height: 8.0,),
       ],
     );
   }

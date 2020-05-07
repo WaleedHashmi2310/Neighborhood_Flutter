@@ -124,7 +124,7 @@ class _MessageState extends State<Message> {
                 decoration: InputDecoration(
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(blockSize * 10),
+                    borderRadius: BorderRadius.circular(blockSize * 5),
                     borderSide: BorderSide(),
                   ),
                 ),
@@ -146,7 +146,7 @@ class _MessageState extends State<Message> {
                   icon: Icon(Icons.keyboard_arrow_right),
                   fillColor: Colors.white,
                   border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(blockSize * 25.0),
+                    borderRadius: new BorderRadius.circular(blockSize * 5.0),
                     borderSide: BorderSide(),
                   ),
                   hintText: 'Enter your Title',
@@ -171,7 +171,7 @@ class _MessageState extends State<Message> {
                 decoration: InputDecoration(
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(blockSize * 25.0),
+                    borderRadius: BorderRadius.circular(blockSize * 5.0),
                     borderSide: BorderSide(),
                   ),
                   icon: Icon(Icons.keyboard_arrow_right),
