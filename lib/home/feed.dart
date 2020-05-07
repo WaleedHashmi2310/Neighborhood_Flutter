@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:neighborhood/common_widgets/alert_card.dart';
 import 'package:neighborhood/common_widgets/expandable_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -18,39 +19,53 @@ class _FeedState extends State<Feed> {
           children: <Widget>[
             Flexible(
               child: StreamBuilder<QuerySnapshot>(
-                stream: db
-                    .collection("Neighborhoods")
-                    .document("Demo")
-                    .collection("Messages")
-                    .snapshots(),
-                // ignore: missing_return
-                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-                  if(snapshot.hasError)
-                    return new Text('Error: ${snapshot.error}');
-                  switch (snapshot.connectionState){
-                    case ConnectionState.waiting: return new Text('Loading...');
-                    default:
-                      return new ListView(
-                        physics: const BouncingScrollPhysics(),
-                        children: snapshot.data.documents.map((DocumentSnapshot document){
-                          return new ExpandableCard(
-                            title: document['title'],
-                            description: document['description'],
-                            username: document['user_name'],
-                            category: document['category'],
-                            image: document['image'],
-                            time: document['timestamp'],
-                          );
-                        }).toList(),
-                      );
+                  stream: db
+                      .collection("Neighborhoods")
+                      .document("Demo")
+                      .collection("Messages")
+                      .orderBy('timestamp', descending: true)
+                      .snapshots(),
+                  // ignore: missing_return
+                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                    if(snapshot.hasError)
+                      return new Text('Error: ${snapshot.error}');
+                    switch (snapshot.connectionState){
+                      case ConnectionState.waiting:
+                        return Center(
+                          child: CircularProgressIndicator(
+                          ),
+                        );
+                      default:
+                        return new ListView(
+                          physics: const BouncingScrollPhysics(),
+                          children: snapshot.data.documents.map((DocumentSnapshot document){
+                            return new ExpandableCard(
+                              title: document['title'],
+                              description: document['description'],
+                              username: document['user_name'],
+                              category: document['category'],
+                              image: document['image'],
+                              time: document['timestamp'],
+                              uid: document['user'],
+                              docID: document.documentID,
+                              type: "Message",
+                            );
+                          }).toList(),
+                        );
+                    }
                   }
-                }
               ),
             ),
           ]
       ),
     );
   }
+
+  Widget myStreams(){
+
+  }
+
+
 }
 
 

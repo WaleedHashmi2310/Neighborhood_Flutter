@@ -17,6 +17,7 @@ class Polls extends StatelessWidget {
                         .collection("Neighborhoods")
                         .document("Demo")
                         .collection("Polls")
+                        .orderBy('timestamp', descending: true)
                         .snapshots(),
                     // ignore: missing_return
                     builder: (BuildContext context,
@@ -25,7 +26,9 @@ class Polls extends StatelessWidget {
                         return new Text('Error: ${snapshot.error}');
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
-                          return new Text('Loading...');
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
                         default:
                           return new ListView(
                             physics: const BouncingScrollPhysics(),
@@ -39,6 +42,7 @@ class Polls extends StatelessWidget {
                                 totalVotes: document['totalvotes'],
                                 docID: document.documentID,
                                 time: document['timestamp'],
+                                uid: document['user'],
                               );
                             }).toList(),
                           );

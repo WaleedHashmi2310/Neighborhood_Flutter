@@ -44,7 +44,7 @@ class _AlertState extends State<Alert> {
               margin: EdgeInsets.only(right: blockSize* 10, top:blockSize *10),
               child: TextFormField(
                 controller: title,
-                maxLength: 30,
+                maxLength: 60,
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please enter an Alert';
@@ -102,7 +102,6 @@ class _AlertState extends State<Alert> {
                     titlefield=title.text;
                     print('TITLE IS $titlefield');
                     sendData();
-                    Navigator.of(context).pop();
                   },
                   child: Text(
                     'Post',
@@ -123,15 +122,18 @@ class _AlertState extends State<Alert> {
   void sendData() async {
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await auth.getUserData();
+    var finalUser = await auth.getName(user);
+    final dismissed = [];
     await db
         .collection("Neighborhoods")
         .document("Demo")
-        .collection("Events")
+        .collection("Alerts")
         .add({
       'user': user.uid,
-      'user_name': user.displayName,
+      'user_name': finalUser,
       'alert': titlefield,
       'timestamp': DateTime.now(),
+      'dismissed': dismissed,
     });
   }
 

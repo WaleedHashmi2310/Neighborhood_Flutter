@@ -162,30 +162,15 @@ class SignUpPage extends StatelessWidget {
 
                 SizedBox(height: 20.0),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-
-                    SocialSignInButton(
-                      assetName: 'images/google-logo-white.png',
-                      color: Colors.blue[400],
-                      text: "Google",
-                      textColor: Colors.white,
-                      onPressed: isLoading ? null : () =>
-                          _signInWithGoogle(context),
-                    ),
-
-                    SizedBox(width: 16.0),
-
-                    SocialSignInButton(
-                      assetName: 'images/facebook-logo.png',
-                      color: Color(0xFF334D92),
-                      text: "Facebook",
-                      textColor: Colors.white,
-                      onPressed: isLoading ? null : () =>
-                          _signInWithFacebook(context),
-                    )
-                  ],
+                SizedBox(
+                  width: MediaQuery.of(context).copyWith().size.width,
+                  child: SocialSignInButton(
+                    assetName: 'images/google-logo-white.png',
+                    color: Colors.blue[400],
+                    text: "Continue with Google",
+                    textColor: Colors.white,
+                    onPressed: isLoading ? null : () => _signInWithGoogle(context),
+                  ),
                 ),
               ],
             ),

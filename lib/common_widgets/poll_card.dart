@@ -16,6 +16,7 @@ class PollCard extends StatefulWidget {
     this.totalVotes,
     this.docID,
     this.time,
+    this.uid,
   });
   final String username;
   final String title;
@@ -24,11 +25,14 @@ class PollCard extends StatefulWidget {
   final totalVotes;
   final docID;
   final time;
+  final uid;
 }
 
 class _PollCardState extends State<PollCard> {
   final db = Firestore.instance;
   String timeStamp;
+  bool canDelete = false;
+  Color _binColor = Colors.grey;
 
   String getInitials(name) {
     List<String> names = name.split(" ");
@@ -70,6 +74,7 @@ class _PollCardState extends State<PollCard> {
 
   @override
   Widget build(BuildContext context) {
+    checkUser();
     getTime();
     checkDone();
     var _keys = widget.optionsAndVotes.keys.toList();
@@ -116,11 +121,11 @@ class _PollCardState extends State<PollCard> {
 
     var factor = 1.0;
     if (totalOptions == 2)
-      factor = 2.2;
-    if (totalOptions == 3)
       factor = 1.8;
-    if (totalOptions == 4)
+    if (totalOptions == 3)
       factor = 1.5;
+    if (totalOptions == 4)
+      factor = 1.3;
 
     return Container(
       child: Padding(
@@ -138,7 +143,7 @@ class _PollCardState extends State<PollCard> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
                   child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Container(
@@ -212,14 +217,20 @@ class _PollCardState extends State<PollCard> {
 
                 Spacer(),
 
-                Padding(
-                  padding: EdgeInsets.fromLTRB(8.0,0.0,8.0,8.0),
-                  child: Row(
-                    children: <Widget>[
-                      if (_pollAlreadyDone == true)
-                        Text("Poll already completed", style: TextStyle(color: Colors.grey),)
-                    ],
-                  ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    if (_pollAlreadyDone == true)
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text("Poll already completed", style: TextStyle(color: Colors.grey),),
+                      ),
+                    if (_pollAlreadyDone == false)
+                      Text("Poll already completed", style: TextStyle(color: Colors.white),),
+                    Spacer(),
+                    if(canDelete == true)
+                      deletePost(context),
+                  ],
                 )
               ],
             ),
@@ -281,6 +292,20 @@ class _PollCardState extends State<PollCard> {
   }
 
   Widget displayOptionFour(option3, percentage3, option4, percentage4, ID) {
+    void check (option) async {
+      final auth = Provider.of<AuthBase>(context, listen: false);
+      final user = await auth.currentUserUID();
+      await db
+          .collection("Neighborhoods")
+          .document("Demo")
+          .collection("Polls")
+          .document(ID)
+          .updateData({
+        'totalvotes': widget.totalVotes + 1,
+        'options_and_votes.$option': widget.optionsAndVotes[option]+1,
+        'voted': FieldValue.arrayUnion([user]),
+      });
+    }
     return Column(
       children: <Widget>[
         FlatButton(
@@ -304,19 +329,11 @@ class _PollCardState extends State<PollCard> {
               ),
             ),
           ),
-          onPressed: () async {
-            final auth = Provider.of<AuthBase>(context, listen: false);
-            final user = await auth.currentUserUID();
-            await db
-                .collection("Neighborhoods")
-                .document("Demo")
-                .collection("Polls")
-                .document(ID)
-                .updateData({
-              'totalvotes': widget.totalVotes + 1,
-              'options_and_votes.$option3': widget.optionsAndVotes[option3]+1,
-              'voted': FieldValue.arrayUnion([user]),
-            });
+          onPressed: () {
+            if (_pollAlreadyDone == true)
+              return null;
+            else
+              return check(option3);
           },
         ),
         SizedBox(height: 8.0,),
@@ -342,24 +359,113 @@ class _PollCardState extends State<PollCard> {
               ),
             ),
           ),
-          onPressed: () async {
-            final auth = Provider.of<AuthBase>(context, listen: false);
-            final user = await auth.currentUserUID();
-            await db
-                .collection("Neighborhoods")
-                .document("Demo")
-                .collection("Polls")
-                .document(ID)
-                .updateData({
-              'totalvotes': widget.totalVotes + 1,
-              'options_and_votes.$option4': widget.optionsAndVotes[option4]+1,
-              'voted': FieldValue.arrayUnion([user]),
-            });
+          onPressed: () {
+            if (_pollAlreadyDone == true)
+              return null;
+            else
+              return check(option4);
           },
         ),
         SizedBox(height: 8.0,),
       ],
     );
+  }
+
+  checkUser() async {
+    final auth = Provider.of<AuthBase>(context, listen: false);
+    final user = await auth.getUserData();
+    final userUID = user.uid;
+    if(userUID.toString() == widget.uid.toString()){
+      setState(() {
+        canDelete = true;
+      });
+    }
+  }
+
+  void deletePoll() async{
+    if(canDelete == true){
+      await db
+          .collection("Neighborhoods")
+          .document("Demo")
+          .collection("Polls")
+          .document(widget.docID)
+          .delete();
+    }
+    setState(() {
+      canDelete = false;
+    });
+  }
+
+  void _confirmDelete(BuildContext context) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Delete Post?', style: TextStyle(fontFamily: 'Roboto', fontSize: 16.0),),
+            elevation: 2.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(12.0),
+              ),
+//          side: BorderSide(color: Colors.grey[300], width: 1.6),
+            ),
+            actions: [
+              FlatButton(
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(fontSize: 14.0),
+                ),
+                textColor: Theme.of(context).accentColor,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  setState(() {
+                    _binColor = Colors.grey;
+                  });
+                },
+              ),
+              FlatButton(
+                child: Text('Continue'),
+                textColor: Theme.of(context).accentColor,
+                onPressed: () {
+                  deletePoll();
+                  Navigator.of(context).pop();
+                  setState(() {
+                    canDelete = false;
+                    _binColor = Colors.grey;
+                  });
+                  setState(() {
+
+                  });
+                },
+              ),
+            ],
+          );
+        }
+    );
+  }
+
+
+
+  Widget deletePost(BuildContext context){
+    if (canDelete == true){
+      return Container(
+          child: IconButton(
+              icon: Icon(Icons.delete,
+                color: _binColor,
+                size: 24.0,
+              ),
+              onPressed: () {
+                _confirmDelete(context);
+                setState(() {
+                  _binColor = Colors.red;
+                  canDelete = false;
+                });
+              }
+          )
+      );
+    } else {
+      return Container(width: 0.0, height: 0.0,);
+    }
   }
 
   Widget enabledProgress(percentage){
@@ -369,7 +475,7 @@ class _PollCardState extends State<PollCard> {
           .size
           .width - 90,
       animation: true,
-      lineHeight: 16.0,
+      lineHeight: 20.0,
       animationDuration: 1000,
       percent: percentage,
       center: Text("${(percentage * 100).floor()}%",
@@ -388,7 +494,7 @@ class _PollCardState extends State<PollCard> {
           .size
           .width - 90,
       animation: true,
-      lineHeight: 16.0,
+      lineHeight: 20.0,
       animationDuration: 1000,
       percent: percentage,
       center: Text("${(percentage * 100).floor()}%",

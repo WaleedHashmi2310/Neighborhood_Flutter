@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:neighborhood/common_widgets/alert_card.dart';
 import 'package:neighborhood/common_widgets/expandable_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
-class Events extends StatefulWidget {
+class Alerts extends StatefulWidget {
   @override
-  _EventsState createState() => _EventsState();
+  _AlertsState createState() => _AlertsState();
 }
 
-class _EventsState extends State<Events> {
+class _AlertsState extends State<Alerts> {
   final db = Firestore.instance;
 
   @override
@@ -20,7 +21,7 @@ class _EventsState extends State<Events> {
               stream: db
                   .collection("Neighborhoods")
                   .document("Demo")
-                  .collection("Events")
+                  .collection("Alerts")
                   .orderBy('timestamp', descending: true)
                   .snapshots(),
               // ignore: missing_return
@@ -31,23 +32,18 @@ class _EventsState extends State<Events> {
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
                     return Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                      ),
                     );
                   default:
                     return new ListView(
                       physics: const BouncingScrollPhysics(),
                       children: snapshot.data.documents.map((
                           DocumentSnapshot document) {
-                        return new ExpandableCard(
-                          title: document['title'],
-                          description: document['description'],
-                          username: document['user_name'],
-                          category: "Event",
-                          image: document['image'],
-                          time: document['timestamp'],
-                          uid: document['user'],
+                        return new AlertCard(
+                          alert: document['alert'],
+                          dismissed: document['dismissed'],
                           docID: document.documentID,
-                          type: "Event",
                         );
                       }).toList(),
                     );

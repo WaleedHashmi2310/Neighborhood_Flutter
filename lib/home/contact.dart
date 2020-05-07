@@ -14,7 +14,7 @@ class _EmergencyState extends State<Emergency> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-        'Emergency Helplines',
+        'Contacts & Helplines',
         style: TextStyle(color: Colors.black87, fontSize: 22.0, fontFamily: 'AirbnbCerealBold')
         ),
         backgroundColor: Theme.of(context).primaryColor,
@@ -41,7 +41,10 @@ class _EmergencyState extends State<Emergency> {
                   return new Text('Error: ${snapshot.error}');
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
-                    return new Text('Loading...');
+                    return Center(
+                      child: CircularProgressIndicator(
+                      ),
+                    );
                   default:
                     return new ListView(
                       physics: const BouncingScrollPhysics(),

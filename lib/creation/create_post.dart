@@ -17,10 +17,8 @@ class CreatePost extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Colors.white,
-        primaryColorLight: Colors.lightBlue[300],
-        primaryColorDark: Color(0x001970),
-        accentColor: Colors.blue,
+        primaryColor: Colors.lightBlue,
+        accentColor: Colors.lightBlue,
         fontFamily: 'Roboto',
       ),
       home: DefaultTabController(

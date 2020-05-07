@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
@@ -19,7 +20,7 @@ class _EventState extends State<Event> {
   final db = Firestore.instance;
   var uuid = Uuid();
   Result result;
-  
+
 
   final title = TextEditingController();
 
@@ -47,6 +48,7 @@ class _EventState extends State<Event> {
 
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await auth.getUserData();
+    var finalUser = await auth.getName(user);
     var comments = new Map();
     await db
         .collection("Neighborhoods")
@@ -54,7 +56,7 @@ class _EventState extends State<Event> {
         .collection("Events")
         .add({
       'user': user.uid,
-      'user_name': user.displayName,
+      'user_name': finalUser,
       'title': titleField,
       'description': eventField,
       'image': url,
@@ -62,7 +64,7 @@ class _EventState extends State<Event> {
       'timestamp': DateTime.now(),
     });
   }
-  
+
   String titleField;
   String eventField;
   var userID;
@@ -93,7 +95,7 @@ class _EventState extends State<Event> {
                   top: blockSize * 10.0),
               child: TextFormField(
                 controller: title,
-                maxLength: 30,
+                maxLength: 60,
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please enter a Title';
@@ -136,7 +138,8 @@ class _EventState extends State<Event> {
                   hintText: 'Enter event description',
                   labelText: 'Description',
                 ),
-                onSaved: (String value) {},
+                onSaved: (String value) {
+                },
               ),
             ),
             Container(
@@ -150,7 +153,7 @@ class _EventState extends State<Event> {
                     child: FloatingActionButton(
                       onPressed: getImage,
                       tooltip: 'Pick Image',
-                      child: new Icon(Icons.add_a_photo),
+                      child: new Icon(Icons.add_photo_alternate, color: Colors.white),
                       backgroundColor: Theme.of(context).accentColor,
                       elevation: 1.0,
                     ),
@@ -191,12 +194,12 @@ class _EventState extends State<Event> {
             ),
             Container(
               margin:
-              EdgeInsets.only(right: blockSize * 64, top: blockSize * 2),
+              EdgeInsets.only(right: blockSize * 40, top: blockSize * 2),
               child: _image == null
                   ? Text('No Image')
                   : SizedBox(
-                height: 100 % blockSize,
-                width: 100 % blockSize,
+                height: blockSize*50,
+                width: blockSize*50,
                 child: Image.file(_image),
               ),
             ),

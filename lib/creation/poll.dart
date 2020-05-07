@@ -42,7 +42,9 @@ class _PollState extends State<Poll> {
   final db = Firestore.instance;
   void sendData() async {
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final user = await auth.getUserData();  int totalVotes = 0;
+    final user = await auth.getUserData();
+    var finalUser = await auth.getName(user);
+    int totalVotes = 0;
     var voted = [];
     var optionsAndVotes = new Map();
     optionsAndVotes["$optionfield1"] = 0;
@@ -57,7 +59,7 @@ class _PollState extends State<Poll> {
         .collection("Polls")
         .add({
       'user': user.uid,
-      'user_name': user.displayName,
+      'user_name': finalUser,
       'title': titlefield,
       'timestamp': DateTime.now(),
       'totalvotes': totalVotes,
@@ -80,7 +82,7 @@ class _PollState extends State<Poll> {
               margin: EdgeInsets.only(right: blockSize* 10, top:blockSize *10),
               child: TextFormField(
                 controller: question,
-                maxLength: 30,
+                maxLength: 60,
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please Ask a Question';

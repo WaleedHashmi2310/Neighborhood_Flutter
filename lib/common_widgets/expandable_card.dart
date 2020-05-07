@@ -1,23 +1,35 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:neighborhood/common_widgets/platform_alert_dialog.dart';
+import 'package:neighborhood/services/auth.dart';
 import 'dart:io';
+
+
+import 'package:provider/provider.dart';
 
 class ExpandableCard extends StatefulWidget {
   const ExpandableCard({
     Key key,
     this.username,
+    this.uid,
+    this.docID,
     this.title,
     this.description,
     this.category,
     this.image,
     this.time,
+    this.type,
   });
   final String username;
+  final uid;
+  final docID;
   final String title;
   final String description;
   final String category;
   final String image;
   final time;
+  final type;
 
   @override
   _ExpandableCardState createState() => _ExpandableCardState();
@@ -25,8 +37,11 @@ class ExpandableCard extends StatefulWidget {
 
 class _ExpandableCardState extends State<ExpandableCard> {
 
+  final db = Firestore.instance;
   Color _iconColor = Colors.grey;
   String timeStamp;
+  bool canDelete = false;
+  Color _binColor = Colors.grey;
 
   String getInitials(name) {
     List<String> names = name.split(" ");
@@ -59,6 +74,7 @@ class _ExpandableCardState extends State<ExpandableCard> {
 
   if(widget.username != null && widget.title != null && widget.description != null && widget.category != null &&widget.time != null){
     getTime();
+    checkUser();
     return ExpandableNotifier(
         child: Padding(
           padding: const EdgeInsets.all(2),
@@ -70,7 +86,7 @@ class _ExpandableCardState extends State<ExpandableCard> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
                   child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
@@ -203,6 +219,10 @@ class _ExpandableCardState extends State<ExpandableCard> {
                               style: TextStyle(color: Colors.grey),
                             )
                         ),
+
+                        Spacer(),
+
+                        deletePost(context),
                       ]
                   ),
                 ),
@@ -227,7 +247,7 @@ class _ExpandableCardState extends State<ExpandableCard> {
           decoration: BoxDecoration(
             image: new DecorationImage(
                 image: new NetworkImage(widget.image),
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
             )
           ),
         ),
@@ -237,5 +257,121 @@ class _ExpandableCardState extends State<ExpandableCard> {
         height: 1.0,
       );
     }
+  }
+
+  checkUser() async {
+    final auth = Provider.of<AuthBase>(context, listen: false);
+    final user = await auth.getUserData();
+    final userUID = user.uid;
+    if(userUID.toString() == widget.uid.toString()){
+      setState(() {
+      canDelete = true;
+      });
+    }
+  }
+
+  void deletePostMessage() async{
+    if(canDelete == true){
+      await db
+          .collection("Neighborhoods")
+          .document("Demo")
+          .collection("Messages")
+          .document(widget.docID)
+          .delete();
+    }
+    setState(() {
+      canDelete = false;
+    });
+  }
+
+  void deletePostEvent() async{
+    if(canDelete == true){
+      await db
+          .collection("Neighborhoods")
+          .document("Demo")
+          .collection("Events")
+          .document(widget.docID)
+          .delete();
+    }
+    setState(() {
+      canDelete = false;
+    });
+  }
+
+  void _confirmDelete(BuildContext context) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Delete Post?', style: TextStyle(fontFamily: 'Roboto', fontSize: 16.0),),
+            elevation: 2.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(12.0),
+              ),
+//          side: BorderSide(color: Colors.grey[300], width: 1.6),
+            ),
+            actions: [
+              FlatButton(
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(fontSize: 14.0),
+                ),
+                textColor: Theme.of(context).accentColor,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  setState(() {
+                    _binColor = Colors.grey;
+                  });
+                },
+              ),
+              FlatButton(
+                child: Text('Continue'),
+                textColor: Theme.of(context).accentColor,
+                onPressed: () {
+                  if(widget.type == "Message")
+                    deletePostMessage();
+                  else
+                    deletePostEvent();
+                  Navigator.of(context).pop();
+                  setState(() {
+                    canDelete = false;
+                    _binColor = Colors.grey;
+                  });
+                  setState(() {
+
+                  });
+                },
+              ),
+            ],
+          );
+        }
+    );
+  }
+
+
+
+  Widget deletePost(BuildContext context){
+    if (canDelete == true){
+      return Container(
+          child: IconButton(
+            icon: Icon(Icons.delete,
+              color: _binColor,
+              size: 24.0,
+            ),
+            onPressed: () {
+              _confirmDelete(context);
+              setState(() {
+                _binColor = Colors.red;
+                canDelete = false;
+              });
+            }
+          )
+      );
+    } else {
+      return Container(width: 0.0, height: 0.0,);
+    }
+
+
   }
 }

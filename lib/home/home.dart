@@ -2,12 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:neighborhood/creation/create_post.dart';
+import 'package:neighborhood/home/view_all_alerts.dart';
 import 'package:neighborhood/home/view_all_polls.dart';
 import 'package:neighborhood/home/view_all_events.dart';
 import 'package:neighborhood/home/profile.dart';
 import 'package:neighborhood/services/auth.dart';
 import 'package:provider/provider.dart';
-import 'emergency.dart';
+import 'contact.dart';
 import 'feed.dart';
 
 class Home extends StatefulWidget {
@@ -29,6 +30,7 @@ class HomeState extends State<Home> with SingleTickerProviderStateMixin {
     Tab(text: 'Home'),
     Tab(text: 'Events'),
     Tab(text: 'Polls'),
+    Tab(text: 'Alerts'),
   ];
 
 
@@ -132,31 +134,7 @@ class HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
               ListTile(
                 leading: Icon(Icons.sort),
-                title: Text('View all Crime & Safety'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.sort),
-                title: Text('View all Lost & Found'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.sort),
-                title: Text('View all for Sale & Free'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.sort),
-                title: Text('View Emergency Helpine'),
+                title: Text('Contacts & Helplines'),
                 onTap: () => {
                   Navigator.push(
                     context,
@@ -164,6 +142,7 @@ class HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   ),
                 }
               ),
+
               ListTile(
                   leading: Icon(Icons.exit_to_app, color: Colors.red[400],),
                   title:Text('Sign Out', style: TextStyle(color: Colors.red[400]),),
@@ -172,6 +151,7 @@ class HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     _confirmSignOut(context);
                   }
               ),
+
             ],
           ),
         ),
@@ -196,7 +176,7 @@ class HomeState extends State<Home> with SingleTickerProviderStateMixin {
       ),
       body: TabBarView(
         controller: _tabController,
-        children: <Widget>[Feed(), Events(), Polls()],
+        children: <Widget>[Feed(), Events(), Polls(), Alerts()],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

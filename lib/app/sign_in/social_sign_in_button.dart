@@ -31,7 +31,6 @@ class SocialSignInButton extends CustomRaisedButton {
         ),
         color: color,
         height: 48.0,
-        width: 132.0,
         onPressed: onPressed,
       );
 }

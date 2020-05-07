@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:neighborhood/home/profile.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -70,6 +71,7 @@ class _MessageState extends State<Message> {
 
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await auth.getUserData();
+    var finalUser = await auth.getName(user);
     var comments = new Map();
     await db
         .collection("Neighborhoods")
@@ -77,7 +79,7 @@ class _MessageState extends State<Message> {
         .collection("Messages")
         .add({
       'user': user.uid,
-      'user_name': user.displayName,
+      'user_name': finalUser,
       'category': categoryField,
       'title': titleField,
       'description': messageField,
@@ -130,10 +132,10 @@ class _MessageState extends State<Message> {
             ),
             Container(
               margin:
-                  EdgeInsets.only(top: blockSize * 5, right: blockSize * 10),
+              EdgeInsets.only(top: blockSize * 5, right: blockSize * 10),
               child: TextFormField(
                 controller: title,
-                maxLength: 30,
+                maxLength: 60,
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please enter a Title';
@@ -155,7 +157,7 @@ class _MessageState extends State<Message> {
             ),
             Container(
               margin:
-                  EdgeInsets.only(right: blockSize * 10, top: blockSize * 5),
+              EdgeInsets.only(right: blockSize * 10, top: blockSize * 5),
               child: TextFormField(
                 controller: message,
                 keyboardType: TextInputType.multiline,
@@ -190,7 +192,7 @@ class _MessageState extends State<Message> {
                     child: FloatingActionButton(
                       onPressed: getImage,
                       tooltip: 'Pick Image',
-                      child: new Icon(Icons.add_a_photo),
+                      child: new Icon(Icons.add_photo_alternate, color: Colors.white,),
                       backgroundColor: Theme.of(context).accentColor,
                       elevation: 1.0,
                     ),
@@ -203,7 +205,7 @@ class _MessageState extends State<Message> {
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
                             borderRadius:
-                                new BorderRadius.circular(blockSize * 18.0),
+                            new BorderRadius.circular(blockSize * 18.0),
                             side: BorderSide(
                                 color: Theme.of(context).accentColor)),
                         color: Theme.of(context).accentColor,
@@ -231,14 +233,14 @@ class _MessageState extends State<Message> {
             ),
             Container(
               margin:
-                  EdgeInsets.only(right: blockSize * 64, top: blockSize * 2),
+              EdgeInsets.only(right: blockSize * 40, top: blockSize * 2),
               child: _image == null
                   ? Text('No Image')
                   : SizedBox(
-                      height: 100 % blockSize,
-                      width: 100 % blockSize,
-                      child: Image.file(_image),
-                    ),
+                height: blockSize*50,
+                width: blockSize*50,
+                child: Image.file(_image),
+              ),
             ),
           ],
         ),

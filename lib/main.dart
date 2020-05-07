@@ -17,8 +17,6 @@ class MyApp extends StatelessWidget {
         title: 'Neighborhood',
         theme: ThemeData(
           primaryColor: Colors.white,
-          primaryColorLight: Colors.lightBlue[300],
-          primaryColorDark: Color(0x001970),
           accentColor: Colors.lightBlue,
           fontFamily: 'Roboto',
         ),

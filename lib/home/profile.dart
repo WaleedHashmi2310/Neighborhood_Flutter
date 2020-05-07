@@ -4,6 +4,14 @@ import 'package:provider/provider.dart';
 import 'package:neighborhood/services/auth.dart';
 
 class ProfileView extends StatelessWidget {
+  var userName = "";
+  void setUserName(name){
+    userName = name;
+  }
+
+  String getUserName(){
+    return userName;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +70,8 @@ Widget getUserInformation(context, snapshot){
 
 Widget displayUserData(context, snapshot){
   final name = snapshot.data;
+  ProfileView obj = ProfileView();
+  obj.setUserName(name);
 
   String getInitials(name) {
     List<String> names = name.split(" ");

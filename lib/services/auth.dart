@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -6,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
+import 'dart:io';
 
 class User {
   User({@required this.uid});
@@ -20,6 +23,7 @@ abstract class AuthBase {
   Future<User> signInWithGoogle();
   Future<User> signInWithFacebook();
   Future<String> currentUserUID();
+  Future<String> getName(user);
   Future getUserData();
   void setUserName(name);
   String getUserName();
@@ -77,6 +81,16 @@ class Auth implements AuthBase {
   }
 
   @override
+  Future<String> getName(user) async {
+    final DocumentReference doc = db.collection("Users").document(user.uid);
+    dynamic data;
+    await doc.get().then<dynamic>((DocumentSnapshot snapshot) async {
+      data = snapshot.data;
+    });
+    return data["name"];
+  }
+
+  @override
   Future<User> signInAnonymously() async {
     final authResult = await _firebaseAuth.signInAnonymously();
     return _userFromFirebase(authResult.user);
@@ -99,6 +113,7 @@ class Auth implements AuthBase {
         final uid = authResult.user.uid;
         final email = authResult.user.email;
         final name = authResult.user.displayName;
+        setUserName(name);
         Map<String, String> userMap = {'user':uid, 'name':name, 'email':email};
         final snapShot = await db
             .collection('Users')
@@ -135,6 +150,10 @@ class Auth implements AuthBase {
           accessToken: result.accessToken.token,
         ),
       );
+      final token = result.accessToken.token;
+      final graphResponse = await http.get(
+          'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
+      final profile = json.decode(graphResponse.body);
       return _userFromFirebase(authResult.user);
     } else {
       throw PlatformException(
