@@ -5,8 +5,9 @@ import 'package:neighborhood/creation/event.dart';
 import 'package:neighborhood/creation/alert.dart';
 
 
-//neighborhood->Demo->Collection->
+//This File creates the page when the "+" button is pressed from the feed page
 class CreatePost extends StatelessWidget {
+  //These are the 4 types of posts that can be created
   final List<Tab> myTabs = <Tab>[
     Tab(text: 'Message'),
     Tab(text: 'Poll'),
@@ -29,14 +30,13 @@ class CreatePost extends StatelessWidget {
           backgroundColor: Colors.white,
           appBar: AppBar(
               title: Text('Create Post', style: TextStyle(color: Colors.black87, fontSize: 22.0, fontFamily: 'AirbnbCerealBold')),
-              backgroundColor: Theme.of(context).primaryColor,
+              backgroundColor: Theme.of(context).primaryColor, 
               titleSpacing: 0.0,
               elevation: 1.0,
               //automaticallyImplyLeading: true,
               leading: IconButton(
                   icon: Icon(Icons.close, color: Colors.black87,),
-                  // Replace false with location to exit to
-                  onPressed: () => Navigator.pop(context)),
+                  onPressed: () => Navigator.pop(context)),//Button to exit back to the feed
               bottom: TabBar(
                 //isScrollable: true,
                 tabs: myTabs,
@@ -45,7 +45,7 @@ class CreatePost extends StatelessWidget {
                 unselectedLabelColor: Colors.black54,
               )),
           body: TabBarView(
-              children: <Widget>[Message(), Poll(), Event(), Alert()]
+              children: <Widget>[Message(), Poll(), Event(), Alert()]//Calls the widget for the selected category on the screen
           ),
         ),
       ),

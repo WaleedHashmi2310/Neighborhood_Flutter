@@ -87,7 +87,7 @@ class _AlertState extends State<Alert> {
                 width: blockSize * 50,
                 child: RaisedButton(
                   shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(blockSize*18.0),
+                      borderRadius: new BorderRadius.circular(blockSize*5.0),
                       side: BorderSide(color: Theme.of(context).accentColor)),
                   color: Theme.of(context).accentColor,
                   onPressed: () {
