@@ -44,7 +44,7 @@ class _AlertState extends State<Alert> {
               margin: EdgeInsets.only(right: blockSize* 10, top:blockSize *10),
               child: TextFormField(
                 controller: title,
-                maxLength: 30,
+                maxLength: 60,
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please enter an Alert';

@@ -96,7 +96,7 @@ class _EventState extends State<Event> {
                   top: blockSize * 10.0),
               child: TextFormField(
                 controller: title,
-                maxLength: 30,// max length of title is 30 character
+                maxLength: 60,// max length of title is 30 character
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please enter a Title';//Shows error title box is not filled

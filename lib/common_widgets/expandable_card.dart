@@ -46,7 +46,7 @@ class _ExpandableCardState extends State<ExpandableCard> {
   String getInitials(name) {
     List<String> names = name.split(" ");
     String initials = "";
-    int numWords = 2;
+    int numWords = names.length;
 
     if(numWords < names.length) {
       numWords = names.length;
@@ -66,7 +66,7 @@ class _ExpandableCardState extends State<ExpandableCard> {
     else if(difference == 1)
       timeStamp = "Yesterday";
     else
-      timeStamp = "$difference" + "days ago";
+      timeStamp = "$difference " + "days ago";
   }
 
   @override

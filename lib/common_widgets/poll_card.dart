@@ -37,12 +37,12 @@ class _PollCardState extends State<PollCard> {
   String getInitials(name) {
     List<String> names = name.split(" ");
     String initials = "";
-    int numWords = 2;
+    int numWords = names.length;
 
-    if (numWords < names.length) {
+    if(numWords < names.length) {
       numWords = names.length;
     }
-    for (var i = 0; i < numWords; i++) {
+    for(var i = 0; i < numWords; i++){
       initials += '${names[i][0]}';
     }
     return initials;
@@ -291,7 +291,7 @@ class _PollCardState extends State<PollCard> {
   }
 
   Widget displayOptionFour(option3, percentage3, option4, percentage4, ID) {
-    void check (option) async {
+    void check2 (option) async {
       final auth = Provider.of<AuthBase>(context, listen: false);
       final user = await auth.currentUserUID();
       await db
@@ -332,7 +332,7 @@ class _PollCardState extends State<PollCard> {
             if (_pollAlreadyDone == true)
               return null;
             else
-              return check(option3);
+              return check2(option3);
           },
         ),
         FlatButton(
@@ -361,7 +361,7 @@ class _PollCardState extends State<PollCard> {
             if (_pollAlreadyDone == true)
               return null;
             else
-              return check(option4);
+              return check2(option4);
           },
         ),
       ],
