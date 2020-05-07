@@ -231,12 +231,12 @@ class _MessageState extends State<Message> {
             ),
             Container(
               margin:
-                  EdgeInsets.only(right: blockSize * 64, top: blockSize * 2),
+                  EdgeInsets.only(right: blockSize * 40, top: blockSize * 2),
               child: _image == null
                   ? Text('No Image')
                   : SizedBox(
-                      height: 100 % blockSize,
-                      width: 100 % blockSize,
+                      height: blockSize*50,
+                      width: blockSize*50,
                       child: Image.file(_image),
                     ),
             ),

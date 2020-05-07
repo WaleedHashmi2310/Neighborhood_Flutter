@@ -17,7 +17,7 @@ class CreatePost extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Colors.white,
+        primaryColor: Colors.blueAccent,
         primaryColorLight: Colors.lightBlue[300],
         primaryColorDark: Color(0x001970),
         accentColor: Colors.blue,
@@ -32,7 +32,7 @@ class CreatePost extends StatelessWidget {
               backgroundColor: Theme.of(context).primaryColor,
               titleSpacing: 0.0,
               elevation: 1.0,
-              automaticallyImplyLeading: true,
+              //automaticallyImplyLeading: true,
               leading: IconButton(
                   icon: Icon(Icons.close, color: Colors.black87,),
                   // Replace false with location to exit to
