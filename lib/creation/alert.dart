@@ -97,11 +97,12 @@ class _AlertState extends State<Alert> {
 
                       Scaffold.of(context).showSnackBar(
                           SnackBar(content: Text('Alert Created')));
+
+                      flag = 'A';
+                      titlefield = title.text;
+                      print('TITLE IS $titlefield');
+                      sendData();
                     }
-                    flag= 'A';
-                    titlefield=title.text;
-                    print('TITLE IS $titlefield');
-                    sendData();
                   },
                   child: Text(
                     'Post',

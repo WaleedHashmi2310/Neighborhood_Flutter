@@ -200,14 +200,15 @@ class _PollState extends State<Poll> {
 
                       Scaffold.of(context).showSnackBar(
                           SnackBar(content: Text('Poll Created!')));
+
+                      titlefield = question.text;
+                      optionfield1 = option1.text;
+                      optionfield2 = option2.text;
+                      optionfield3 = option3.text;
+                      optionfield4 = option4.text;
+                      sendData();
+                      flag = 'P';
                     }
-                    titlefield = question.text;
-                    optionfield1 = option1.text;
-                    optionfield2 = option2.text;
-                    optionfield3= option3.text;
-                    optionfield4 = option4.text;
-                    sendData();
-                    flag= 'P';
                   },
                   child: Text(
                     'Post',

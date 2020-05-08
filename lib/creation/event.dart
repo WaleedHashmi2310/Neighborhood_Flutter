@@ -181,10 +181,11 @@ class _EventState extends State<Event> {
                           if (_eventKey.currentState.validate()) {
                             Scaffold.of(context).showSnackBar(SnackBar(
                                 content: Text('Event Created!')));
+
+                            titleField = title.text;
+                            eventField = event.text;
+                            sendData();
                           }
-                          titleField = title.text;
-                          eventField = event.text;
-                          sendData();
                         },
                         child: Text(
                           'Post',

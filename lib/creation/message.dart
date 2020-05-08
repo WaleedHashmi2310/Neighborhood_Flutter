@@ -214,10 +214,11 @@ class _MessageState extends State<Message> {
                           if (_messageKey.currentState.validate()) {
                             Scaffold.of(context).showSnackBar(SnackBar(
                                 content: Text('Message Created!')));
+
+                            titleField = title.text;
+                            messageField = message.text;
+                            sendData();
                           }
-                          titleField = title.text;
-                          messageField = message.text;
-                          sendData();
                         },
                         child: Text(
                           'Post',
