@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:neighborhood/common_widgets/platform_alert_dialog.dart';
 import 'package:neighborhood/services/auth.dart';
 import 'dart:io';
-
-
 import 'package:provider/provider.dart';
+
+////Card to display the messages in the NewsFeed
 
 class ExpandableCard extends StatefulWidget {
   const ExpandableCard({

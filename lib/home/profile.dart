@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:neighborhood/services/auth.dart';
 
+//Creates and renders the user profile widget in the app drawer
+
 class ProfileView extends StatelessWidget {
   var userName = "";
   void setUserName(name){

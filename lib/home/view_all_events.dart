@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:neighborhood/common_widgets/expandable_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+//StreamBuilder to fetch data from the DB and build the Events Page
 
 class Events extends StatefulWidget {
   @override

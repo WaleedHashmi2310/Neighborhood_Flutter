@@ -11,6 +11,8 @@ import 'package:provider/provider.dart';
 import 'contact.dart';
 import 'feed.dart';
 
+//Parent widget of the tabbed homepage
+
 class Home extends StatefulWidget {
   const Home({ Key key }) : super(key: key);
   @override

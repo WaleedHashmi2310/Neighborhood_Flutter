@@ -3,6 +3,7 @@ import 'package:neighborhood/common_widgets/alert_card.dart';
 import 'package:neighborhood/common_widgets/expandable_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+//StreamBuilder to fetch data from the DB and build the Feed Page
 
 class Feed extends StatefulWidget {
   @override

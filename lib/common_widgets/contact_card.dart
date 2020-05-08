@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:neighborhood/services/auth.dart';
 import 'package:provider/provider.dart';
 
+//Card to display the contacts
 class ContactCard extends StatefulWidget {
   @override
   _ContactCardState createState() => _ContactCardState();

@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:neighborhood/common_widgets/poll_card.dart';
 
+//StreamBuilder to fetch data from the DB and build the Polls Page
+
 class Polls extends StatefulWidget {
   @override
   _PollsState createState() => _PollsState();

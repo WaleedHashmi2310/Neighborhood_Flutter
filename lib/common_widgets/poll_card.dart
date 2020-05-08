@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:neighborhood/services/auth.dart';
+
+////Card to display the polls in the Poll Feed
 class PollCard extends StatefulWidget {
   @override
   _PollCardState createState() => _PollCardState();

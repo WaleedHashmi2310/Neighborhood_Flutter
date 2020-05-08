@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:neighborhood/services/auth.dart';
 
+
 class SignInBloc {
   SignInBloc({@required this.auth});
   final AuthBase auth;

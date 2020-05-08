@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:neighborhood/services/auth.dart';
 import 'package:provider/provider.dart';
 
+//Card to display the alert
 class AlertCard extends StatefulWidget {
   @override
   _AlertCardState createState() => _AlertCardState();

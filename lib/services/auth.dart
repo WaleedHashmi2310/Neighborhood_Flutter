@@ -10,26 +10,30 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 
+//User class - holds the current user's UID
 class User {
   User({@required this.uid});
 
   final String uid;
 }
 
+//Authentication Class
+//contains functions for async calls to Firebase authentication
+//contains functions to return User's details
 abstract class AuthBase {
   Stream<User> get onAuthStateChanged;
   Future<User> currentUser();
   Future<User> signInAnonymously();
   Future<User> signInWithGoogle();
   Future<User> signInWithFacebook();
+  Future<User> signInWithEmailAndPassword(String email, String password);
+  Future<User> createUserWithEmailAndPassword(String email, String password);
+  Future<void> signOut();
   Future<String> currentUserUID();
   Future<String> getName(user);
   Future getUserData();
   void setUserName(name);
   String getUserName();
-  Future<User> signInWithEmailAndPassword(String email, String password);
-  Future<User> createUserWithEmailAndPassword(String email, String password);
-  Future<void> signOut();
 }
 
 class Auth implements AuthBase {
@@ -46,8 +50,8 @@ class Auth implements AuthBase {
     );
   }
 
-
-  @override //new stream that emits a user object every time there is an auth event
+  //new stream that emits a user object every time there is an auth event
+  @override
   Stream<User> get onAuthStateChanged {
     return _firebaseAuth.onAuthStateChanged.map(_userFromFirebase);
   }

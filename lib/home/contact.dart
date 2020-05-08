@@ -6,6 +6,7 @@ class Emergency extends StatefulWidget {
   _EmergencyState createState() => _EmergencyState();
 }
 
+//StreamBuilder to fetch data from the DB and build the Contacts Page
 class _EmergencyState extends State<Emergency> {
 
   Widget build(BuildContext context) {
