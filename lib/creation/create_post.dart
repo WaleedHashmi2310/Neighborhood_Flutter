@@ -5,7 +5,7 @@ import 'package:neighborhood/creation/event.dart';
 import 'package:neighborhood/creation/alert.dart';
 
 
-//neighborhood->Demo->Collection->
+//Creates the Create post Page
 class CreatePost extends StatelessWidget {
   final List<Tab> myTabs = <Tab>[
     Tab(text: 'Message'),
