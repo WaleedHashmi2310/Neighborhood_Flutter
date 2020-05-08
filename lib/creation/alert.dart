@@ -102,7 +102,6 @@ class _AlertState extends State<Alert> {
                     titlefield=title.text;
                     print('TITLE IS $titlefield');
                     sendData();
-                    Navigator.of(context).pop();
                   },
                   child: Text(
                     'Post',
@@ -127,7 +126,7 @@ class _AlertState extends State<Alert> {
     await db
         .collection("Neighborhoods")
         .document("Demo")
-        .collection("Events")
+        .collection("Alerts")
         .add({
       'user': user.uid,
       'user_name': finalUser,
