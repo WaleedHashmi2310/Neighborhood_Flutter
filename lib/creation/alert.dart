@@ -23,28 +23,29 @@ class _AlertState extends State<Alert> {
     //title.dispose();
     super.dispose();
   }
-
+  //variables to store data
   String titlefield;
   String flag;
   String descriptionfield;
   Result result;
-  final db = Firestore.instance;
+  final db = Firestore.instance;//Connection to database
   final _alertKey = GlobalKey<FormState>();
   //Result result = Result();
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;//Gets width of user screen
     var blockSize = width / 100;
     var form = Form(
       key: _alertKey,
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
+            //Code for alert box
             Container(
-              margin: EdgeInsets.only(right: blockSize* 10, top:blockSize *10),
+              margin: EdgeInsets.only(right: blockSize* 10, top:blockSize *10),//Alligns alert box
               child: TextFormField(
                 controller: title,
-                maxLength: 60,
+                maxLength: 60,//max characters in alert
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please enter an Alert';
@@ -55,7 +56,7 @@ class _AlertState extends State<Alert> {
                   icon: Icon(Icons.keyboard_arrow_right),
                   fillColor: Colors.white,
                   border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(blockSize * 5.0),
+                    borderRadius: new BorderRadius.circular(blockSize * 5.0),//tapers Alert box border
                     borderSide: BorderSide(),
                   ),
                   hintText: 'Enter your Alert!',
@@ -66,6 +67,7 @@ class _AlertState extends State<Alert> {
                 },
               ),
             ),
+            //code for text beneath alert box
             Container(
                 child: Text(
                   '''   
@@ -80,20 +82,21 @@ class _AlertState extends State<Alert> {
                       fontSize: 14.0,
                       color: Colors.black),
                 )),
+                //Code for Post Alert Button
             Container(
               margin: EdgeInsets.only(left: blockSize * 32, top: blockSize * 6),
               child: SizedBox(
-                height: blockSize * 15,
-                width: blockSize * 50,
+                height: blockSize * 15,//height of button
+                width: blockSize * 50,//width of button
                 child: RaisedButton(
                   shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(blockSize*25.0),
+                      borderRadius: new BorderRadius.circular(blockSize*25.0),//Circular border for button
                       side: BorderSide(color: Theme.of(context).accentColor)),
                   color: Theme.of(context).accentColor,
                   onPressed: () {
+                    //If all fields valid, send data
                     if (_alertKey.currentState.validate()) {
-                      // If the form is valid, display a snackbar. In the real world,
-                      // you'd often call a server or save the information in a database.
+                      // If the form is valid, display a snackbar.
 
                       Scaffold.of(context).showSnackBar(
                           SnackBar(content: Text('Alert Created')));
@@ -101,7 +104,7 @@ class _AlertState extends State<Alert> {
                       flag = 'A';
                       titlefield = title.text;
                       print('TITLE IS $titlefield');
-                      sendData();
+                      sendData();// Function to send data
                     }
                   },
                   child: Text(
@@ -120,6 +123,7 @@ class _AlertState extends State<Alert> {
 
     return form;
   }
+  //Function to send data to database
   void sendData() async {
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await auth.getUserData();

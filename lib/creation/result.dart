@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
-
+//Ignore this file
+//
+//
+//
+//
+//
+//
+//
+//
+//
 class Result{
 
   String flag='';

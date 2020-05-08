@@ -10,6 +10,7 @@ class Poll extends StatefulWidget {
 }
 
 class _PollState extends State<Poll> {
+  //Controllers for all the text fields
   final question = TextEditingController();
   final description = TextEditingController();
   final option1 = TextEditingController();
@@ -28,7 +29,7 @@ class _PollState extends State<Poll> {
     option4.dispose();
     super.dispose();
   }
-
+  //variables to store text field data
   String titlefield;
   String optionfield1;
   String optionfield2;
@@ -39,7 +40,9 @@ class _PollState extends State<Poll> {
   final _pollKey = GlobalKey<FormState>();
   //Result result = Result();
   Result result;
-  final db = Firestore.instance;
+  final db = Firestore.instance;//Database Link
+
+  //Function to send data to database
   void sendData() async {
     final auth = Provider.of<AuthBase>(context, listen: false);
     final user = await auth.getUserData();
@@ -71,21 +74,22 @@ class _PollState extends State<Poll> {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width;//Gets screen width of user's screen
     var blockSize = width / 100;
     var form = Form(
       key: _pollKey,
-      child: SingleChildScrollView(
+      child: SingleChildScrollView(//Makes screen scrollable
         child: Column(
           children: <Widget>[
+            //Code for Question field
             Container(
               margin: EdgeInsets.only(right: blockSize* 10, top:blockSize *10),
               child: TextFormField(
                 controller: question,
-                maxLength: 60,
+                maxLength: 60,//Max length of question
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Please Ask a Question';
+                    return 'Please Ask a Question';//error if field empty
                   }
                   return null;
                 },
@@ -93,7 +97,7 @@ class _PollState extends State<Poll> {
                   icon: Icon(Icons.keyboard_arrow_right),
                   fillColor: Colors.white,
                   border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(blockSize*5.0),
+                    borderRadius: new BorderRadius.circular(blockSize*5.0),//Tapers border of question box
                     borderSide: BorderSide(),
                   ),
                   hintText: 'Ask a Question',
@@ -101,14 +105,15 @@ class _PollState extends State<Poll> {
                 ),
               ),
             ),
+            //Code for option 1 textfield
             Container(
-              margin: EdgeInsets.only(right: blockSize* 10, top:blockSize * 5),
+              margin: EdgeInsets.only(right: blockSize* 10, top:blockSize * 5),//Aligns Textfield on screen
               child: TextFormField(
                 controller: option1,
                 maxLength: 30,
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Minimum 2 options required';
+                    return 'Minimum 2 options required';//Error shown if 2 options not given
                   }
                   return null;
                 },
@@ -116,7 +121,7 @@ class _PollState extends State<Poll> {
                   icon: Icon(Icons.keyboard_arrow_right),
                   fillColor: Colors.white,
                   border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(blockSize*5.0),
+                    borderRadius: new BorderRadius.circular(blockSize*5.0),//Tapers border
                     borderSide: BorderSide(),
                   ),
                   hintText: 'Write an Option',
@@ -124,8 +129,9 @@ class _PollState extends State<Poll> {
                 ),
               ),
             ),
+            //Code for option 2 textfield
             Container(
-              margin: EdgeInsets.only(right: blockSize* 10, top:blockSize * 5),
+              margin: EdgeInsets.only(right: blockSize* 10, top:blockSize * 5),//Aligns Textfield on screen
               child: TextFormField(
                 controller: option2,
                 maxLength: 30,
@@ -147,8 +153,9 @@ class _PollState extends State<Poll> {
                 ),
               ),
             ),
+            //Code for option 3 textfield
             Container(
-              margin: EdgeInsets.only(right: blockSize* 10, top:blockSize * 5),
+              margin: EdgeInsets.only(right: blockSize* 10, top:blockSize * 5),//Aligns Textfield on screen
               child: TextFormField(
                 controller: option3,
                 maxLength: 30,
@@ -164,8 +171,9 @@ class _PollState extends State<Poll> {
                 ),
               ),
             ),
+            //Code for option 4 textfield
             Container(
-              margin: EdgeInsets.only(right: blockSize* 10, top:blockSize * 5),
+              margin: EdgeInsets.only(right: blockSize* 10, top:blockSize * 5),//Aligns Textfield on screen
               child: TextFormField(
                 controller: option4,
                 maxLength: 30,
@@ -181,11 +189,12 @@ class _PollState extends State<Poll> {
                 ),
               ),
             ),
+            //Code for Post button
             Container(
               margin: EdgeInsets.only(left: blockSize * 25, top: blockSize * 5, bottom:blockSize * 5 ),
               child: SizedBox(
-                height: 50,
-                width: 200,
+                height: 50,//height of button
+                width: 200,//width of button
                 child: RaisedButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(blockSize*25.0),
@@ -193,10 +202,9 @@ class _PollState extends State<Poll> {
                   color: Theme.of(context).accentColor,
                   elevation: 1.0,
                   onPressed: () {
-
+                    //If all fields are valid and filled send data to server
                     if (_pollKey.currentState.validate()) {
-                      // If the form is valid, display a snackbar. In the real world,
-                      // you'd often call a server or save the information in a database.
+                      // If the form is valid, display a snackbar.
 
                       Scaffold.of(context).showSnackBar(
                           SnackBar(content: Text('Poll Created!')));
@@ -206,7 +214,7 @@ class _PollState extends State<Poll> {
                       optionfield2 = option2.text;
                       optionfield3 = option3.text;
                       optionfield4 = option4.text;
-                      sendData();
+                      sendData();//Sends data to server
                       flag = 'P';
                     }
                   },

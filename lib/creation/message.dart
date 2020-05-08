@@ -18,16 +18,16 @@ class Message extends StatefulWidget {
 
 class _MessageState extends State<Message> {
   var uuid = Uuid();
-  final db = Firestore.instance;
-  Result result;
+  final db = Firestore.instance;//Establishes connection to database
 
   List<String> _category = [
     'General',
     'For Sale',
     'Crime & Safety',
     'Lost & Found'
-  ];
+  ];// The list for the dropdown menu
 
+  //variables to store data from textfield
   String categoryField;
   String titleField;
   String messageField;
@@ -37,7 +37,7 @@ class _MessageState extends State<Message> {
   //Result result = Result();
   String _selectedCategory;
   File _image;
-
+  //Controllers for text fields.
   final title = TextEditingController();
 
   @override
@@ -50,14 +50,14 @@ class _MessageState extends State<Message> {
     title.dispose();
     super.dispose();
   }
-
+ //Function to get image from phone gallery
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       _image = image;
     });
   }
-
+//Function to send data to database
   void sendData() async {
     String url;
     if (_image != null){
@@ -73,6 +73,7 @@ class _MessageState extends State<Message> {
     final user = await auth.getUserData();
     var finalUser = await auth.getName(user);
     var comments = new Map();
+    //Sends data to its relevant category in the database
     await db
         .collection("Neighborhoods")
         .document("Demo")
@@ -94,11 +95,11 @@ class _MessageState extends State<Message> {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width; //Gets width of the user's screen
     var blockSize = width / 100;
     var form = Form(
       key: _messageKey,
-      child: SingleChildScrollView(
+      child: SingleChildScrollView( //Ensures scrollability
         child: Column(
           children: <Widget>[
             Container(
@@ -106,15 +107,17 @@ class _MessageState extends State<Message> {
                   left: blockSize * 10,
                   right: blockSize * 10.0,
                   top: blockSize * 10.0),
-              child: DropdownButtonFormField(
+              child: DropdownButtonFormField(//Creates the drop down menu
                 hint: Text('Please choose a category'),
                 value: _selectedCategory,
                 onChanged: (newValue) {
+                  //storing value of from dropdown menu
                   setState(() {
                     _selectedCategory = newValue;
                     categoryField = newValue;
                   });
                 },
+                //maps category list above to dropdown menu
                 items: _category.map((_category) {
                   return DropdownMenuItem(
                     child: new Text(_category),
@@ -124,21 +127,22 @@ class _MessageState extends State<Message> {
                 decoration: InputDecoration(
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(blockSize * 5),
+                    borderRadius: BorderRadius.circular(blockSize * 5),//Tapers the category menu border
                     borderSide: BorderSide(),
                   ),
                 ),
               ),
             ),
+            //Code for title box
             Container(
               margin:
-              EdgeInsets.only(top: blockSize * 5, right: blockSize * 10),
+              EdgeInsets.only(top: blockSize * 5, right: blockSize * 10),//aligns title textbox on screen
               child: TextFormField(
                 controller: title,
-                maxLength: 60,
+                maxLength: 60,//Max characters the text box can hold
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Please enter a Title';
+                    return 'Please enter a Title';//returns this error if box is empty when "Post" button is pressed
                   }
                   return null;
                 },
@@ -146,7 +150,7 @@ class _MessageState extends State<Message> {
                   icon: Icon(Icons.keyboard_arrow_right),
                   fillColor: Colors.white,
                   border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(blockSize * 5.0),
+                    borderRadius: new BorderRadius.circular(blockSize * 5.0), //Tapers the title box
                     borderSide: BorderSide(),
                   ),
                   hintText: 'Enter your Title',
@@ -155,32 +159,35 @@ class _MessageState extends State<Message> {
                 onSaved: (String value) {},
               ),
             ),
+            //Code for Message box
             Container(
               margin:
-              EdgeInsets.only(right: blockSize * 10, top: blockSize * 5),
+              EdgeInsets.only(right: blockSize * 10, top: blockSize * 5), //Aligns the message box on screen
               child: TextFormField(
                 controller: message,
-                keyboardType: TextInputType.multiline,
+                keyboardType: TextInputType.multiline, //Message can be as long as you want
                 maxLines: null,
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Please enter your Message';
+                    return 'Please enter your Message'; // error displayed if message box is empty
                   }
                   return null;
                 },
+                //Decoration widget
                 decoration: InputDecoration(
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(blockSize * 5.0),
+                    borderRadius: BorderRadius.circular(blockSize * 5.0),//Tapers message box
                     borderSide: BorderSide(),
                   ),
-                  icon: Icon(Icons.keyboard_arrow_right),
+                  icon: Icon(Icons.keyboard_arrow_right),//arrow on the left side of the box
                   hintText: 'Enter your Message',
                   labelText: 'Message',
                 ),
                 onSaved: (String value) {},
               ),
             ),
+            //Code for add image button
             Container(
               margin: EdgeInsets.only(
                   left: blockSize * 10.0, top: blockSize * 10.0),
@@ -190,34 +197,36 @@ class _MessageState extends State<Message> {
                   Container(
                     margin: EdgeInsets.only(left: 0.0, right: 0.0),
                     child: FloatingActionButton(
-                      onPressed: getImage,
+                      onPressed: getImage,//Calls the get image function written above
                       tooltip: 'Pick Image',
-                      child: new Icon(Icons.add_photo_alternate, color: Colors.white,),
+                      child: new Icon(Icons.add_photo_alternate, color: Colors.white,),//photo icon for button
                       backgroundColor: Theme.of(context).accentColor,
                       elevation: 1.0,
                     ),
                   ),
+                  //Code for Post button
                   Container(
-                    margin: EdgeInsets.only(left: blockSize * 15),
+                    margin: EdgeInsets.only(left: blockSize * 15),//Alligns button on screen at bottom right
                     child: SizedBox(
-                      height: blockSize * 15,
-                      width: blockSize * 50,
+                      height: blockSize * 15,// height of button box
+                      width: blockSize * 50,//width of button box
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
                             borderRadius:
-                            new BorderRadius.circular(blockSize * 18.0),
+                            new BorderRadius.circular(blockSize * 18.0),//curves the button edges
                             side: BorderSide(
                                 color: Theme.of(context).accentColor)),
                         color: Theme.of(context).accentColor,
                         elevation: 1.0,
                         onPressed: () {
+                          //if all fields are valid, send data to server
                           if (_messageKey.currentState.validate()) {
                             Scaffold.of(context).showSnackBar(SnackBar(
                                 content: Text('Message Created!')));
 
                             titleField = title.text;
                             messageField = message.text;
-                            sendData();
+                            sendData();//Function to send data to server
                           }
                         },
                         child: Text(
@@ -232,14 +241,15 @@ class _MessageState extends State<Message> {
                 ],
               ),
             ),
+            //Code to display uploaded image 
             Container(
               margin:
               EdgeInsets.only(right: blockSize * 40, top: blockSize * 2),
               child: _image == null
-                  ? Text('No Image')
+                  ? Text('No Image')//When there is no image
                   : SizedBox(
-                height: blockSize*50,
-                width: blockSize*50,
+                height: blockSize*50,//Image height
+                width: blockSize*50,//Image width
                 child: Image.file(_image),
               ),
             ),

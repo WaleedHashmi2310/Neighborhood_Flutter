@@ -147,27 +147,29 @@ class _EventState extends State<Event> {
                 },
               ),
             ),
+            //Code for image button
             Container(
               margin: EdgeInsets.only(
-                  left: blockSize * 5.0, top: blockSize * 10.0),
+                  left: blockSize * 5.0, top: blockSize * 10.0),//alligns button
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(left: blockSize * 5),
                     child: FloatingActionButton(
-                      onPressed: getImage,
+                      onPressed: getImage,//Calls getImage Function
                       tooltip: 'Pick Image',
                       child: new Icon(Icons.add_a_photo, color: Colors.white,),
                       backgroundColor: Theme.of(context).accentColor,
                       elevation: 1.0,
                     ),
                   ),
+                  //Code for Post button
                   Container(
-                    margin: EdgeInsets.only(left: blockSize * 15),
+                    margin: EdgeInsets.only(left: blockSize * 15),//Alligns Post button
                     child: SizedBox(
-                      height: blockSize * 15,
-                      width: blockSize * 50,
+                      height: blockSize * 15,//height of button
+                      width: blockSize * 50,//width of button
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
                             borderRadius:
@@ -178,13 +180,14 @@ class _EventState extends State<Event> {
                         color: Theme.of(context).accentColor,
                         elevation: 1.0,
                         onPressed: () {
+                          //If all forms are filled and valid send data to server
                           if (_eventKey.currentState.validate()) {
                             Scaffold.of(context).showSnackBar(SnackBar(
                                 content: Text('Event Created!')));
 
                             titleField = title.text;
                             eventField = event.text;
-                            sendData();
+                            sendData();//calls function to send data
                           }
                         },
                         child: Text(
@@ -199,14 +202,15 @@ class _EventState extends State<Event> {
                 ],
               ),
             ),
+            //Code to display image on screen
             Container(
               margin:
               EdgeInsets.only(right: blockSize * 40, top: blockSize * 2),
               child: _image == null
-                  ? Text('No Image')
+                  ? Text('No Image')// If no image is uploaded
                   : SizedBox(
-                height: blockSize*50,
-                width: blockSize*50,
+                height: blockSize*50,//height of image
+                width: blockSize*50,//width of image
                 child: Image.file(_image),
               ),
             ),

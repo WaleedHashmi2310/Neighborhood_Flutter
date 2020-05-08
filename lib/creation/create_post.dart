@@ -7,7 +7,8 @@ import 'package:neighborhood/creation/alert.dart';
 
 //Creates the Create post Page
 class CreatePost extends StatelessWidget {
-  final List<Tab> myTabs = <Tab>[
+ 
+  final List<Tab> myTabs = <Tab>[ //Category list
     Tab(text: 'Message'),
     Tab(text: 'Poll'),
     Tab(text: 'Event'),
@@ -23,7 +24,7 @@ class CreatePost extends StatelessWidget {
       ),
       home: DefaultTabController(
         length: 4,
-        child: Scaffold(
+        child: Scaffold(//Builds the page and its tabs
           backgroundColor: Colors.white,
           appBar: AppBar(
               title: Text('Create Post', style: TextStyle(color: Colors.black87, fontSize: 22.0, fontFamily: 'AirbnbCerealBold')),
@@ -33,8 +34,7 @@ class CreatePost extends StatelessWidget {
               automaticallyImplyLeading: true,
               leading: IconButton(
                   icon: Icon(Icons.close, color: Colors.black87,),
-                  // Replace false with location to exit to
-                  onPressed: () => Navigator.pop(context)),
+                  onPressed: () => Navigator.pop(context)),//Button to go back to the home screen
               bottom: TabBar(
                 //isScrollable: true,
                 tabs: myTabs,
@@ -43,7 +43,7 @@ class CreatePost extends StatelessWidget {
                 unselectedLabelColor: Colors.black54,
               )),
           body: TabBarView(
-              children: <Widget>[Message(), Poll(), Event(), Alert()]
+              children: <Widget>[Message(), Poll(), Event(), Alert()] //Displays contents of the relevant tab
           ),
         ),
       ),
