@@ -14,7 +14,7 @@ The platform will provide residential communities with a platform that brings th
 
 
 ![1](https://user-images.githubusercontent.com/53556099/104136840-81b3d180-53ba-11eb-8218-c757129f9dc5.png)
-![2](https://user-images.githubusercontent.com/53556099/104136841-837d9500-53ba-11eb-9d95-1a3ff8c9f5c1.png)
+![2](https://user-images.githubusercontent.com/53556099/104136896-e0794b00-53ba-11eb-9186-8bc9bc536d34.png)
 ![Side Drawer](https://user-images.githubusercontent.com/53556099/104136346-45cb3d00-53b7-11eb-919c-a9e080c81daf.png)
 ![Feed](https://user-images.githubusercontent.com/53556099/104136340-4368e300-53b7-11eb-82c0-6c22d9201274.png)
 ![Feed – 2](https://user-images.githubusercontent.com/53556099/104136337-4237b600-53b7-11eb-9626-acc20461f141.png)
