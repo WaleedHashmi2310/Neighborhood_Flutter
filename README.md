@@ -11,6 +11,8 @@ Enable the management/security offices of residential schemes to become aware of
 Enable local businesses and service providers to better understand their target audience and market themselves efficiently
 
 The platform will provide residential communities with a platform that brings them together, makes their social interaction easier, helps them voice their concerns and opinions, help businesses understand them better and come together to build safer, more closely-knit neighborhoods.
+
+
 ![Welcome](https://user-images.githubusercontent.com/53556099/104136349-482d9700-53b7-11eb-844f-89c3f8038c56.png)
 ![Signup](https://user-images.githubusercontent.com/53556099/104136348-46fc6a00-53b7-11eb-9ed6-acad7a1799f7.png)
 ![Choose community](https://user-images.githubusercontent.com/53556099/104136333-3d730200-53b7-11eb-89ea-fe06de3f8852.png)
